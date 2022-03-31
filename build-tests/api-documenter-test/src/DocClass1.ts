@@ -212,6 +212,16 @@ export class DocClass1 extends DocBaseClass implements IDocInterface1, IDocInter
   public regularProperty: SystemEvent;
 
   /**
+   * This is an optional property.
+   */
+  public optionalProperty?: number;
+
+  /**
+   * This is a property with a default value.
+   */
+  public propertyWithDefault = true;
+
+  /**
    * An example with tables:
    * @remarks
    * <table>

@@ -32,6 +32,8 @@ export class DocClass1 extends DocBaseClass implements IDocInterface1, IDocInter
     // @eventProperty
     readonly modifiedEvent: SystemEvent;
     optionalParamFunction(x?: number): void;
+    optionalProperty?: number;
+    propertyWithDefault: boolean;
     // (undocumented)
     get readonlyProperty(): string;
     regularProperty: SystemEvent;

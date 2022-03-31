@@ -619,6 +619,60 @@
             },
             {
               "kind": "Property",
+              "canonicalReference": "api-documenter-test!DocClass1#optionalProperty:member",
+              "docComment": "/**\n * This is an optional property.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "optionalProperty?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "optionalProperty",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "api-documenter-test!DocClass1#propertyWithDefault:member",
+              "docComment": "/**\n * This is a property with a default value.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "propertyWithDefault: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "propertyWithDefault",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
               "canonicalReference": "api-documenter-test!DocClass1#readonlyProperty:member",
               "docComment": "",
               "excerptTokens": [

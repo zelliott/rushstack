@@ -19,6 +19,32 @@ isPreview: false
 isDeprecated: false
 type: class
 properties:
+  - name: optionalProperty
+    uid: 'api-documenter-test!DocClass1#optionalProperty:member'
+    package: api-documenter-test!
+    fullName: optionalProperty
+    summary: This is an optional property.
+    remarks: ''
+    example: []
+    isPreview: false
+    isDeprecated: false
+    syntax:
+      content: 'optionalProperty?: number;'
+      return:
+        type: number
+  - name: propertyWithDefault
+    uid: 'api-documenter-test!DocClass1#propertyWithDefault:member'
+    package: api-documenter-test!
+    fullName: propertyWithDefault
+    summary: This is a property with a default value.
+    remarks: ''
+    example: []
+    isPreview: false
+    isDeprecated: false
+    syntax:
+      content: 'propertyWithDefault: boolean;'
+      return:
+        type: boolean
   - name: readonlyProperty
     uid: 'api-documenter-test!DocClass1#readonlyProperty:member'
     package: api-documenter-test!
