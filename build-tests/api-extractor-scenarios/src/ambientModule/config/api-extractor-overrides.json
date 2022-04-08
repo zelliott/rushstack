@@ -1,0 +1,4 @@
+{
+  // Just to work around the isExternalModulePath bug fixed by https://github.com/microsoft/rushstack/pull/3321.
+  "bundledPackages": ["bar", "baz"]
+}
