@@ -613,6 +613,19 @@ export class Collector {
       astDeclaration.declarationMetadata = metadata;
     }
 
+    // Find inherited declarations
+    const collectorEntity: CollectorEntity | undefined = this.tryGetCollectorEntity(astSymbol);
+    if (collectorEntity?.exported) {
+      for (const astDeclaration of astSymbol.astDeclarations) {
+        if (
+          astDeclaration.declaration.kind === ts.SyntaxKind.ClassDeclaration ||
+          astDeclaration.declaration.kind === ts.SyntaxKind.InterfaceDeclaration
+        ) {
+          this._findInheritedDeclarations(astDeclaration, astDeclaration);
+        }
+      }
+    }
+
     // Detect ancillary declarations
     for (const astDeclaration of astSymbol.astDeclarations) {
       // For a getter/setter pair, make the setter ancillary to the getter
@@ -627,6 +640,8 @@ export class Collector {
           }
         }
 
+        // TODO: Getter/setter pairs across inheritance
+
         if (!foundGetter) {
           this.messageRouter.addAnalyzerIssue(
             ExtractorMessageId.MissingGetter,
@@ -636,6 +651,57 @@ export class Collector {
         }
       }
     }
+  }
+
+  private _findInheritedDeclarations(
+    rootAstDeclaration: AstDeclaration,
+    astDeclaration: AstDeclaration
+  ): void {
+    const node: ts.ClassDeclaration | ts.InterfaceDeclaration = astDeclaration.declaration as
+      | ts.ClassDeclaration
+      | ts.InterfaceDeclaration;
+
+    // If an extends clause exists, it will be the first clause, as the TS compiler errors if an
+    // implements clause precedes an extends clause.
+    const firstHeritageClause: ts.HeritageClause | undefined = node.heritageClauses?.[0];
+
+    // If there's no extends clause, then we're done finding inherited declarations. Just return
+    // out.
+    if (firstHeritageClause?.token !== ts.SyntaxKind.ExtendsKeyword) {
+      return;
+    }
+
+    // Classes have a single, non-branching inheritance chain (e.g. `A extends B extends C ...`),
+    // but interfaces can extend multiple other interfaces (e.g. `A extends B, C, ...`).
+    for (const clauseType of firstHeritageClause.types) {
+      const identifier: ts.Identifier = clauseType.expression as ts.Identifier;
+      const collectorEntity: CollectorEntity | undefined = this.tryGetEntityForNode(identifier);
+      if (!collectorEntity) {
+        throw new InternalError('Unable to find CollectorEntity');
+      }
+
+      // Do not mark the entity's declarations as inherited declarations if it is exported. Only unexported entities
+      // can be inherited.
+      if (collectorEntity.exported) {
+        return;
+      }
+
+      if (collectorEntity.astEntity instanceof AstSymbol) {
+        for (const inheritedAstDeclaration of collectorEntity.astEntity.astDeclarations) {
+          this._addInheritedDeclaration(rootAstDeclaration, inheritedAstDeclaration);
+          this._findInheritedDeclarations(rootAstDeclaration, inheritedAstDeclaration);
+        }
+      }
+    }
+  }
+
+  private _addInheritedDeclaration(
+    mainAstDeclaration: AstDeclaration,
+    inheritedAstDeclaration: AstDeclaration
+  ): void {
+    const mainMetadata: InternalDeclarationMetadata =
+      mainAstDeclaration.declarationMetadata as InternalDeclarationMetadata;
+    mainMetadata.inheritedDeclarations.push(inheritedAstDeclaration);
   }
 
   private _addAncillaryDeclaration(

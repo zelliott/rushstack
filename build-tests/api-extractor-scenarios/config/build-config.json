@@ -33,6 +33,7 @@
     "importEquals",
     "importType",
     "inconsistentReleaseTags",
+    "inheritedDeclarations",
     "internationalCharacters",
     "namedDefaultImport",
     "preapproved",

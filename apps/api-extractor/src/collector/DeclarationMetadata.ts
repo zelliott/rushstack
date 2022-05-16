@@ -35,6 +35,27 @@ export abstract class DeclarationMetadata {
    * and `isAncillary` will be true for all the array items.
    */
   public abstract readonly ancillaryDeclarations: ReadonlyArray<AstDeclaration>;
+
+  /**
+   * A list of other declarations whose API data is inherited in some way by this declaration. For example:
+   *
+   * ```
+   * declare class B {
+   *   b: number;
+   * }
+   *
+   * export declare class A extends B {
+   *   a: string;
+   * }
+   * ```
+   *
+   * In the example above, suppose `A` is exported by the entry point and `B` is not. In order to surface
+   * documentation for `b`, `A` stores `B` as an inherited declaration, indicating that it inherits some
+   * parts of its API (namely the `b` property declaration).
+   *
+   * The order of this array matters and indicates the inheritance priority.
+   */
+  public abstract readonly inheritedDeclarations: ReadonlyArray<AstDeclaration>;
 }
 
 /**
@@ -46,4 +67,6 @@ export class InternalDeclarationMetadata extends DeclarationMetadata {
   public isAncillary: boolean = false;
 
   public ancillaryDeclarations: AstDeclaration[] = [];
+
+  public inheritedDeclarations: AstDeclaration[] = [];
 }

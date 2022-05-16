@@ -27,6 +27,7 @@ export interface IFetchAstSymbolOptions {
    * The symbol after any symbol aliases have been followed using TypeScriptHelpers.followAliases()
    */
   followedSymbol: ts.Symbol;
+
   /**
    * True if followedSymbol is not part of the working package
    */

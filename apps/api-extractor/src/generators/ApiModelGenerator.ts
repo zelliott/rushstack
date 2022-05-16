@@ -404,6 +404,13 @@ export class ApiModelGenerator {
     }
 
     this._processChildDeclarations(astDeclaration, exportedName, apiClass);
+
+    // After processing any child declarations, process any inherited declarations _in order_ from first to last.
+    // This order ensures that declarations further up the inheritance chain take precedent over those in the rear.
+    const declarationMetadata: DeclarationMetadata = this._collector.fetchDeclarationMetadata(astDeclaration);
+    for (const inheritedDeclaration of declarationMetadata.inheritedDeclarations) {
+      this._processChildDeclarations(inheritedDeclaration, undefined, apiClass);
+    }
   }
 
   private _processApiConstructSignature(
@@ -667,6 +674,13 @@ export class ApiModelGenerator {
     }
 
     this._processChildDeclarations(astDeclaration, exportedName, apiInterface);
+
+    // After processing any child declarations, process any inherited declarations _in order_ from first to last.
+    // This order ensures that declarations further up the inheritance chain take precedent over those in the rear.
+    const declarationMetadata: DeclarationMetadata = this._collector.fetchDeclarationMetadata(astDeclaration);
+    for (const inheritedDeclaration of declarationMetadata.inheritedDeclarations) {
+      this._processChildDeclarations(inheritedDeclaration, undefined, apiInterface);
+    }
   }
 
   private _processApiMethod(
@@ -724,6 +738,9 @@ export class ApiModelGenerator {
       });
 
       parentApiItem.addMember(apiMethod);
+    } else {
+      // The method has already been declared (e.g. merged declarations, inherited declarations).
+      // We purposefully do nothing in this case.
     }
   }
 
@@ -779,6 +796,9 @@ export class ApiModelGenerator {
       });
 
       parentApiItem.addMember(apiMethodSignature);
+    } else {
+      // The method has already been declared (e.g. merged declarations, inherited declarations).
+      // We purposefully do nothing in this case.
     }
   }
 
@@ -840,6 +860,9 @@ export class ApiModelGenerator {
       const isOptional: boolean =
         (astDeclaration.astSymbol.followedSymbol.flags & ts.SymbolFlags.Optional) !== 0;
 
+      // TODO: Can add isInherited flag or something if
+      // `astDeclaration.parent.astSymbol.localName !== parentApiItem.name`.
+
       apiProperty = new ApiProperty({
         name,
         docComment,
@@ -851,8 +874,8 @@ export class ApiModelGenerator {
       });
       parentApiItem.addMember(apiProperty);
     } else {
-      // If the property was already declared before (via a merged interface declaration),
-      // we assume its signature is identical, because the language requires that.
+      // The property has already been declared (e.g. merged declarations, inherited declarations).
+      // We purposefully do nothing in this case.
     }
   }
 
@@ -894,8 +917,8 @@ export class ApiModelGenerator {
 
       parentApiItem.addMember(apiPropertySignature);
     } else {
-      // If the property was already declared before (via a merged interface declaration),
-      // we assume its signature is identical, because the language requires that.
+      // The property has already been declared (e.g. merged declarations, inherited declarations).
+      // We purposefully do nothing in this case.
     }
   }
 
