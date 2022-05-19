@@ -357,6 +357,11 @@ export interface IConfigFile {
   bundledPackages?: string[];
 
   /**
+   * Controls whether forgotten exports should be included in the API report and API doc models.
+   */
+  includeForgottenExports?: boolean;
+
+  /**
    * {@inheritDoc IConfigCompiler}
    */
   compiler?: IConfigCompiler;

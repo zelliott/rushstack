@@ -63,6 +63,11 @@
   "bundledPackages": [],
 
   /**
+   * Controls whether forgotten exports should be included in the API report and API doc models.
+   */
+  "includeForgottenExports": false,
+
+  /**
    * Determines how the TypeScript compiler engine will be invoked by API Extractor.
    */
   "compiler": {

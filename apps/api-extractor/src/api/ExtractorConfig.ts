@@ -143,6 +143,7 @@ interface IExtractorConfigParameters {
   packageFolder: string | undefined;
   mainEntryPointFilePath: string;
   bundledPackages: string[];
+  includeForgottenExports: boolean;
   tsconfigFilePath: string;
   overrideTsconfig: {} | undefined;
   skipLibCheck: boolean;
@@ -220,6 +221,9 @@ export class ExtractorConfig {
   /** {@inheritDoc IConfigFile.bundledPackages} */
   public readonly bundledPackages: string[];
 
+  /** {@inheritDoc IConfigFile.includeForgottenExports} */
+  public readonly includeForgottenExports: boolean;
+
   /** {@inheritDoc IConfigCompiler.tsconfigFilePath} */
   public readonly tsconfigFilePath: string;
 
@@ -288,6 +292,7 @@ export class ExtractorConfig {
     this.packageFolder = parameters.packageFolder;
     this.mainEntryPointFilePath = parameters.mainEntryPointFilePath;
     this.bundledPackages = parameters.bundledPackages;
+    this.includeForgottenExports = parameters.includeForgottenExports;
     this.tsconfigFilePath = parameters.tsconfigFilePath;
     this.overrideTsconfig = parameters.overrideTsconfig;
     this.skipLibCheck = parameters.skipLibCheck;
@@ -970,6 +975,7 @@ export class ExtractorConfig {
         packageFolder,
         mainEntryPointFilePath,
         bundledPackages,
+        includeForgottenExports: !!configObject.includeForgottenExports,
         tsconfigFilePath,
         overrideTsconfig: configObject.compiler.overrideTsconfig,
         skipLibCheck: !!configObject.compiler.skipLibCheck,

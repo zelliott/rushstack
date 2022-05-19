@@ -5,6 +5,8 @@
 
   "bundledPackages": [],
 
+  "includeForgottenExports": false,
+
   "newlineKind": "crlf",
 
   "compiler": {
