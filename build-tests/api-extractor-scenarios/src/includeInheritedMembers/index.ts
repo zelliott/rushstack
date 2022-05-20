@@ -1,4 +1,4 @@
-abstract class D {
+class D {
   d: string;
 }
 

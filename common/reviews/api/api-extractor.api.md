@@ -56,6 +56,7 @@ export class ExtractorConfig {
     // @internal
     _getShortFilePath(absolutePath: string): string;
     static hasDtsFileExtension(filePath: string): boolean;
+    readonly includeInheritedMembers: boolean;
     static readonly jsonSchema: JsonSchema;
     static loadFile(jsonFilePath: string): IConfigFile;
     static loadFileAndPrepare(configJsonFilePath: string): ExtractorConfig;
@@ -203,6 +204,7 @@ export interface IConfigFile {
     // @beta
     dtsRollup?: IConfigDtsRollup;
     extends?: string;
+    includeInheritedMembers?: boolean;
     mainEntryPointFilePath: string;
     messages?: IExtractorMessagesConfig;
     newlineKind?: 'crlf' | 'lf' | 'os';

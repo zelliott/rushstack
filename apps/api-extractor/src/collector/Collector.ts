@@ -613,15 +613,18 @@ export class Collector {
       astDeclaration.declarationMetadata = metadata;
     }
 
-    // Find inherited declarations
-    const collectorEntity: CollectorEntity | undefined = this.tryGetCollectorEntity(astSymbol);
-    if (collectorEntity?.exported) {
-      for (const astDeclaration of astSymbol.astDeclarations) {
-        if (
-          astDeclaration.declaration.kind === ts.SyntaxKind.ClassDeclaration ||
-          astDeclaration.declaration.kind === ts.SyntaxKind.InterfaceDeclaration
-        ) {
-          this._findInheritedDeclarations(astDeclaration, astDeclaration);
+    // Only bother finding any inherited declarations if API Extractor is configured to include
+    // inherited members.
+    if (this.extractorConfig.includeInheritedMembers) {
+      const collectorEntity: CollectorEntity | undefined = this.tryGetCollectorEntity(astSymbol);
+      if (collectorEntity?.exported) {
+        for (const astDeclaration of astSymbol.astDeclarations) {
+          if (
+            ts.isClassDeclaration(astDeclaration.declaration) ||
+            ts.isInterfaceDeclaration(astDeclaration.declaration)
+          ) {
+            this._findInheritedDeclarations(astDeclaration, astDeclaration);
+          }
         }
       }
     }
@@ -678,12 +681,6 @@ export class Collector {
       const collectorEntity: CollectorEntity | undefined = this.tryGetEntityForNode(identifier);
       if (!collectorEntity) {
         throw new InternalError('Unable to find CollectorEntity');
-      }
-
-      // Do not mark the entity's declarations as inherited declarations if it is exported. Only unexported entities
-      // can be inherited.
-      if (collectorEntity.exported) {
-        return;
       }
 
       if (collectorEntity.astEntity instanceof AstSymbol) {

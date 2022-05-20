@@ -5,6 +5,8 @@
 
   "bundledPackages": [],
 
+  "includeInheritedMembers": false,
+
   "newlineKind": "crlf",
 
   "compiler": {

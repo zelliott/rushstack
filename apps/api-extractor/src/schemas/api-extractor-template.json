@@ -63,6 +63,11 @@
   "bundledPackages": [],
 
   /**
+   * Controls whether inherited members should be included in sub classes and interfaces.
+   */
+  "includeInheritedMembers": false,
+
+  /**
    * Determines how the TypeScript compiler engine will be invoked by API Extractor.
    */
   "compiler": {

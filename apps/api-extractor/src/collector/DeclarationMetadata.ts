@@ -37,11 +37,12 @@ export abstract class DeclarationMetadata {
   public abstract readonly ancillaryDeclarations: ReadonlyArray<AstDeclaration>;
 
   /**
-   * A list of other declarations whose API data is inherited in some way by this declaration. For example:
+   * A list of other declarations whose API data is inherited in some way by this declaration. Only populated and used
+   * if `includeInheritedMembers` is set to true. For example:
    *
    * ```
-   * declare class B {
-   *   b: number;
+   * export declare class B {
+   *   b: string;
    * }
    *
    * export declare class A extends B {
@@ -49,9 +50,8 @@ export abstract class DeclarationMetadata {
    * }
    * ```
    *
-   * In the example above, suppose `A` is exported by the entry point and `B` is not. In order to surface
-   * documentation for `b`, `A` stores `B` as an inherited declaration, indicating that it inherits some
-   * parts of its API (namely the `b` property declaration).
+   * In the example above, `A` stores `B` as an inherited declaration, indicating that it inherits some parts of its
+   * API (namely the `b` property declaration).
    *
    * The order of this array matters and indicates the inheritance priority.
    */

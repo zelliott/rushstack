@@ -31,6 +31,11 @@
       }
     },
 
+    "includeInheritedMembers": {
+      "description": "Controls whether inherited members should be included in sub classes and interfaces.",
+      "type": "boolean"
+    },
+
     "compiler": {
       "description": "Determines how the TypeScript compiler engine will be invoked by API Extractor.",
       "type": "object",

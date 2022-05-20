@@ -357,6 +357,11 @@ export interface IConfigFile {
   bundledPackages?: string[];
 
   /**
+   * Controls whether inherited members should be included in sub classes and interfaces.
+   */
+  includeInheritedMembers?: boolean;
+
+  /**
    * {@inheritDoc IConfigCompiler}
    */
   compiler?: IConfigCompiler;

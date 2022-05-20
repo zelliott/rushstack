@@ -35,7 +35,7 @@ declare class C extends D {
     doB(): void;
 }
 
-declare abstract class D {
+declare class D {
     d: string;
 }
 
