@@ -22,6 +22,7 @@ classes:
   - 'api-documenter-test!DocBaseClass:class'
   - 'api-documenter-test!DocClass1:class'
   - 'api-documenter-test!DocClassInterfaceMerge:class'
+  - 'api-documenter-test!DocClassWithProtectedMembers:class'
   - 'api-documenter-test!Generic:class'
   - 'api-documenter-test!SystemEvent:class'
 enums:

@@ -997,6 +997,95 @@
           "extendsTokenRanges": []
         },
         {
+          "kind": "Class",
+          "canonicalReference": "api-documenter-test!DocClassWithProtectedMembers:class",
+          "docComment": "/**\n * Class that has protected members.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class DocClassWithProtectedMembers "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "DocClassWithProtectedMembers",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "api-documenter-test!DocClassWithProtectedMembers:constructor(1)",
+              "docComment": "/**\n * A protected constructor.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected constructor();"
+                }
+              ],
+              "isProtected": true,
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": []
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "api-documenter-test!DocClassWithProtectedMembers.someMethod:member(1)",
+              "docComment": "/**\n * Some protected & static method (multiple modifiers).\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected static someMethod(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": true,
+              "isProtected": true,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "someMethod"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "api-documenter-test!DocClassWithProtectedMembers#someProperty:member",
+              "docComment": "/**\n * Some protected property.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected someProperty: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "someProperty",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": true
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
           "kind": "Enum",
           "canonicalReference": "api-documenter-test!DocEnum:enum",
           "docComment": "/**\n * Docs for DocEnum\n *\n * {@docCategory SystemEvent}\n *\n * @public\n */\n",

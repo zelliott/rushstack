@@ -46,6 +46,8 @@ export class IndentedWriter {
   private readonly _indentStack: string[];
   private _indentText: string;
 
+  private _queuedChunks: string[];
+
   public constructor(builder?: IStringBuilder) {
     this._builder = builder === undefined ? new StringBuilder() : builder;
 
@@ -55,6 +57,8 @@ export class IndentedWriter {
 
     this._indentStack = [];
     this._indentText = '';
+
+    this._queuedChunks = [];
   }
 
   /**
@@ -150,6 +154,28 @@ export class IndentedWriter {
   }
 
   /**
+   * Queues a message to be written to the internal string buffer on the next call to either
+   * `write` or `writeLine`.
+   */
+  public queuedWrite(message: string): void {
+    this._queuedChunks.push(message);
+  }
+
+  /**
+   * Returns whether or not the queue of messages to-be-written is empty.
+   */
+  public hasEmptyQueue(): boolean {
+    return this._queuedChunks.length === 0;
+  }
+
+  /**
+   * Empties the queue of messages to-be-written.
+   */
+  public emptyQueue(): void {
+    this._queuedChunks = [];
+  }
+
+  /**
    * Writes some text to the internal string buffer, applying indentation according
    * to the current indentation level.  If the string contains multiple newlines,
    * each line will be indented separately.
@@ -158,6 +184,8 @@ export class IndentedWriter {
     if (message.length === 0) {
       return;
     }
+
+    this._writeQueue();
 
     // If there are no newline characters, then append the string verbatim
     if (!/[\r\n]/.test(message)) {
@@ -184,6 +212,8 @@ export class IndentedWriter {
    * Indentation is applied following the semantics of IndentedWriter.write().
    */
   public writeLine(message: string = ''): void {
+    this._writeQueue();
+
     if (message.length > 0) {
       this.write(message);
     }
@@ -216,6 +246,18 @@ export class IndentedWriter {
     this._previousChunk = this._latestChunk;
     this._latestChunk = s;
     this._builder.append(s);
+  }
+
+  /**
+   * Writes each message in the queue, processing the queue in LIFO order.
+   */
+  private _writeQueue(): void {
+    while (this._queuedChunks.length > 0) {
+      const chunk: string | undefined = this._queuedChunks.pop();
+      if (chunk) {
+        this.write(chunk);
+      }
+    }
   }
 
   private _updateIndentText(): void {

@@ -61,6 +61,13 @@ export interface DocClassInterfaceMerge {
 }
 
 // @public
+export class DocClassWithProtectedMembers {
+    protected constructor();
+    protected static someMethod(): void;
+    protected someProperty: string;
+}
+
+// @public
 export enum DocEnum {
     One = 1,
     Two = 2,

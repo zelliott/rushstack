@@ -355,3 +355,24 @@ export class DocClassInterfaceMerge {}
  * @public
  */
 export interface DocClassInterfaceMerge {}
+
+/**
+ * Class that has protected members.
+ * @public
+ */
+export class DocClassWithProtectedMembers {
+  /**
+   * A protected constructor.
+   */
+  protected constructor() {}
+
+  /**
+   * Some protected property.
+   */
+  protected someProperty: string;
+
+  /**
+   * Some protected & static method (multiple modifiers).
+   */
+  protected static someMethod(): void {}
+}

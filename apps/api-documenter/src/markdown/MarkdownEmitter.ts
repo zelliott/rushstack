@@ -141,9 +141,18 @@ export class MarkdownEmitter {
         const trimmedParagraph: DocParagraph = DocNodeTransforms.trimSpacesInParagraph(docParagraph);
         if (context.insideTable) {
           if (docNodeSiblings) {
-            writer.write('<p>');
+            // This queued write is necessary to avoid writing empty paragraph tags (i.e. `<p></p>`). At the
+            // moment this code runs, we do not know whether the `writeNodes` call below will actually write
+            // anything. Thus, we want to only write a `<p>` tag (as well as eventually a corresponding
+            // `</p>` tag) if something else ends up being subsequently written.
+            writer.queuedWrite('<p>');
             this.writeNodes(trimmedParagraph.nodes, context);
-            writer.write('</p>');
+
+            if (writer.hasEmptyQueue()) {
+              writer.write('</p>');
+            } else {
+              writer.emptyQueue();
+            }
           } else {
             // Special case:  If we are the only element inside this table cell, then we can omit the <p></p> container.
             this.writeNodes(trimmedParagraph.nodes, context);
