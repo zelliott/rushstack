@@ -4,8 +4,6 @@
 
 ```ts
 
-// Warning: (ae-forgotten-export) The symbol "Lib1ForgottenExport" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export class Lib1Class extends Lib1ForgottenExport {
     // (undocumented)
@@ -36,6 +34,5 @@ export namespace Lib1Namespace {
     export class Y {
     }
 }
-
 
 ```

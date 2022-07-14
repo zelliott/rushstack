@@ -12,7 +12,7 @@ import { AstSymbol } from './AstSymbol';
 import { AstModule, AstModuleExportInfo } from './AstModule';
 import { PackageMetadataManager } from './PackageMetadataManager';
 import { ExportAnalyzer } from './ExportAnalyzer';
-import { AstEntity } from './AstEntity';
+import { AstEntity, AstEntityReferenceKind } from './AstEntity';
 import { AstNamespaceImport } from './AstNamespaceImport';
 import { MessageRouter } from '../collector/MessageRouter';
 import { TypeScriptInternals, IGlobalVariableAnalyzer } from './TypeScriptInternals';
@@ -319,7 +319,9 @@ export class AstSymbolTable {
       // referencedAstSymbols that are non-external.  For example, this ensures that forgotten exports
       // get analyzed.
       rootAstSymbol.forEachDeclarationRecursive((astDeclaration: AstDeclaration) => {
-        for (const referencedAstEntity of astDeclaration.referencedAstEntities) {
+        for (const astEntityReferences of astDeclaration.astEntityReferences) {
+          const referencedAstEntity: AstEntity = astEntityReferences.astEntity;
+
           // Walk up to the root of the tree, looking for any imports along the way
           if (referencedAstEntity instanceof AstSymbol) {
             if (!referencedAstEntity.isExternal) {
@@ -416,7 +418,16 @@ export class AstSymbolTable {
             }
 
             if (referencedAstEntity) {
-              governingAstDeclaration._notifyReferencedAstEntity(referencedAstEntity);
+              const isInheritanceReference: boolean =
+                ts.isHeritageClause(node.parent) && node.parent.token === ts.SyntaxKind.ExtendsKeyword;
+              const referenceKind: AstEntityReferenceKind = isInheritanceReference
+                ? AstEntityReferenceKind.Inheritance
+                : AstEntityReferenceKind.Normal;
+
+              governingAstDeclaration._notifyAstEntityReference({
+                astEntity: referencedAstEntity,
+                kind: referenceKind
+              });
             }
           }
         }
@@ -457,7 +468,10 @@ export class AstSymbolTable {
           }
 
           if (referencedAstEntity) {
-            governingAstDeclaration._notifyReferencedAstEntity(referencedAstEntity);
+            governingAstDeclaration._notifyAstEntityReference({
+              astEntity: referencedAstEntity,
+              kind: AstEntityReferenceKind.Normal
+            });
           }
         }
         break;

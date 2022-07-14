@@ -44,6 +44,7 @@
     "typeOf",
     "typeOf2",
     "typeOf3",
-    "typeParameters"
+    "typeParameters",
+    "unexportedBaseDeclaration"
   ]
 }

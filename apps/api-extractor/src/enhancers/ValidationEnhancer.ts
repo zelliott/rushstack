@@ -14,7 +14,7 @@ import { ExtractorMessageId } from '../api/ExtractorMessageId';
 import { ReleaseTag } from '@microsoft/api-extractor-model';
 import { AstNamespaceImport } from '../analyzer/AstNamespaceImport';
 import { AstModuleExportInfo } from '../analyzer/AstModule';
-import { AstEntity } from '../analyzer/AstEntity';
+import { AstEntity, AstEntityReferenceKind } from '../analyzer/AstEntity';
 
 export class ValidationEnhancer {
   public static analyze(collector: Collector): void {
@@ -194,17 +194,18 @@ export class ValidationEnhancer {
     const apiItemMetadata: ApiItemMetadata = collector.fetchApiItemMetadata(astDeclaration);
     const declarationReleaseTag: ReleaseTag = apiItemMetadata.effectiveReleaseTag;
 
-    for (const referencedEntity of astDeclaration.referencedAstEntities) {
+    for (const astEntityReference of astDeclaration.astEntityReferences) {
+      const referencedAstEntity: AstEntity = astEntityReference.astEntity;
       let collectorEntity: CollectorEntity | undefined;
       let referencedReleaseTag: ReleaseTag;
       let localName: string;
 
-      if (referencedEntity instanceof AstSymbol) {
+      if (referencedAstEntity instanceof AstSymbol) {
         // If this is e.g. a member of a namespace, then we need to be checking the top-level scope to see
         // whether it's exported.
         //
         // TODO: Technically we should also check each of the nested scopes along the way.
-        const rootSymbol: AstSymbol = referencedEntity.rootAstSymbol;
+        const rootSymbol: AstSymbol = referencedAstEntity.rootAstSymbol;
 
         if (rootSymbol.isExternal) {
           continue;
@@ -214,15 +215,15 @@ export class ValidationEnhancer {
 
         collectorEntity = collector.tryGetCollectorEntity(rootSymbol);
 
-        const referencedMetadata: SymbolMetadata = collector.fetchSymbolMetadata(referencedEntity);
+        const referencedMetadata: SymbolMetadata = collector.fetchSymbolMetadata(referencedAstEntity);
         referencedReleaseTag = referencedMetadata.maxEffectiveReleaseTag;
-      } else if (referencedEntity instanceof AstNamespaceImport) {
-        collectorEntity = collector.tryGetCollectorEntity(referencedEntity);
+      } else if (referencedAstEntity instanceof AstNamespaceImport) {
+        collectorEntity = collector.tryGetCollectorEntity(referencedAstEntity);
 
         // TODO: Currently the "import * as ___ from ___" syntax does not yet support doc comments
         referencedReleaseTag = ReleaseTag.Public;
 
-        localName = referencedEntity.localName;
+        localName = referencedAstEntity.localName;
       } else {
         continue;
       }
@@ -233,22 +234,26 @@ export class ValidationEnhancer {
             ExtractorMessageId.IncompatibleReleaseTags,
             `The symbol "${astDeclaration.astSymbol.localName}"` +
               ` is marked as ${ReleaseTag.getTagName(declarationReleaseTag)},` +
-              ` but its signature references "${referencedEntity.localName}"` +
+              ` but its signature references "${referencedAstEntity.localName}"` +
               ` which is marked as ${ReleaseTag.getTagName(referencedReleaseTag)}`,
             astDeclaration
           );
         }
       } else {
+        if (astEntityReference.kind === AstEntityReferenceKind.Inheritance) {
+          continue;
+        }
+
         const entryPointFilename: string = path.basename(
           collector.workingPackage.entryPointSourceFile.fileName
         );
 
-        if (!alreadyWarnedEntities.has(referencedEntity)) {
-          alreadyWarnedEntities.add(referencedEntity);
+        if (!alreadyWarnedEntities.has(referencedAstEntity)) {
+          alreadyWarnedEntities.add(referencedAstEntity);
 
           if (
-            referencedEntity instanceof AstSymbol &&
-            ValidationEnhancer._isEcmaScriptSymbol(referencedEntity)
+            referencedAstEntity instanceof AstSymbol &&
+            ValidationEnhancer._isEcmaScriptSymbol(referencedAstEntity)
           ) {
             // The main usage scenario for ECMAScript symbols is to attach private data to a JavaScript object,
             // so as a special case, we do NOT report them as forgotten exports.

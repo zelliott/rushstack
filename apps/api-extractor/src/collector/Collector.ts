@@ -443,7 +443,9 @@ export class Collector {
 
     if (astEntity instanceof AstSymbol) {
       astEntity.forEachDeclarationRecursive((astDeclaration: AstDeclaration) => {
-        for (const referencedAstEntity of astDeclaration.referencedAstEntities) {
+        for (const astEntityReference of astDeclaration.astEntityReferences) {
+          const referencedAstEntity: AstEntity = astEntityReference.astEntity;
+
           if (referencedAstEntity instanceof AstSymbol) {
             // We only create collector entities for root-level symbols.
             // For example, if a symbols is nested inside a namespace, only the root-level namespace

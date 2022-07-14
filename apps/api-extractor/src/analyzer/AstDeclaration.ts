@@ -5,7 +5,7 @@ import * as ts from 'typescript';
 import { AstSymbol } from './AstSymbol';
 import { Span } from './Span';
 import { InternalError } from '@rushstack/node-core-library';
-import { AstEntity } from './AstEntity';
+import { IAstEntityReference } from './AstEntity';
 
 /**
  * Constructor options for AstDeclaration
@@ -65,7 +65,7 @@ export class AstDeclaration {
   // NOTE: This array becomes immutable after astSymbol.analyze() sets astSymbol.analyzed=true
   private readonly _analyzedChildren: AstDeclaration[] = [];
 
-  private readonly _analyzedReferencedAstEntitiesSet: Set<AstEntity> = new Set<AstEntity>();
+  private readonly _analyzedAstEntityReferences: Set<IAstEntityReference> = new Set<IAstEntityReference>();
 
   // Reverse lookup used by findChildrenWithName()
   private _childrenByName: Map<string, AstDeclaration[]> | undefined = undefined;
@@ -106,21 +106,10 @@ export class AstDeclaration {
   }
 
   /**
-   * Returns the AstEntity objects referenced by this node.
-   * @remarks
-   * NOTE: The collection will be empty until AstSymbol.analyzed is true.
-   *
-   * Since we assume references are always collected by a traversal starting at the
-   * root of the nesting declarations, this array omits the following items because they
-   * would be redundant:
-   * - symbols corresponding to parents of this declaration (e.g. a method that returns its own class)
-   * - symbols already listed in the referencedAstSymbols property for parents of this declaration
-   *   (e.g. a method that returns its own class's base class)
-   * - symbols that are referenced only by nested children of this declaration
-   *   (e.g. if a method returns an enum, this doesn't imply that the method's class references that enum)
+   * Returns the `AstEntityReference` objects associated with this `AstDeclaration`.
    */
-  public get referencedAstEntities(): ReadonlyArray<AstEntity> {
-    return this.astSymbol.analyzed ? [...this._analyzedReferencedAstEntitiesSet] : [];
+  public get astEntityReferences(): ReadonlyArray<IAstEntityReference> {
+    return this.astSymbol.analyzed ? [...this._analyzedAstEntityReferences] : [];
   }
 
   /**
@@ -152,8 +141,8 @@ export class AstDeclaration {
     }
     result += '\n';
 
-    for (const referencedAstEntity of this._analyzedReferencedAstEntitiesSet.values()) {
-      result += indent + `  ref: ${referencedAstEntity.localName}\n`;
+    for (const { astEntity, kind } of this._analyzedAstEntityReferences.values()) {
+      result += indent + `  ref: ${astEntity.localName},  kind: ${kind} \n`;
     }
 
     for (const child of this.children) {
@@ -177,23 +166,23 @@ export class AstDeclaration {
    * type reference associated with this declaration.
    * @internal
    */
-  public _notifyReferencedAstEntity(referencedAstEntity: AstEntity): void {
+  public _notifyAstEntityReference(astEntityReference: IAstEntityReference): void {
     if (this.astSymbol.analyzed) {
-      throw new InternalError('_notifyReferencedAstEntity() called after analysis is already complete');
+      throw new InternalError('_notifyAstEntityReference() called after analysis is already complete');
     }
 
     for (let current: AstDeclaration | undefined = this; current; current = current.parent) {
       // Don't add references to symbols that are already referenced by a parent
-      if (current._analyzedReferencedAstEntitiesSet.has(referencedAstEntity)) {
+      if (current._analyzedAstEntityReferences.has(astEntityReference)) {
         return;
       }
       // Don't add the symbols of parents either
-      if (referencedAstEntity === current.astSymbol) {
+      if (astEntityReference.astEntity === current.astSymbol) {
         return;
       }
     }
 
-    this._analyzedReferencedAstEntitiesSet.add(referencedAstEntity);
+    this._analyzedAstEntityReferences.add(astEntityReference);
   }
 
   /**

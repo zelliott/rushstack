@@ -114,7 +114,7 @@ export class ApiModelGenerator {
       //   export { example1, example2 }
       //
       // The current logic does not try to associate "thing()" with a specific parent.  Instead
-      // the API documentation will show duplicated entries for example1.thing() and example2.thing()./
+      // the API documentation will show duplicated entries for example1.thing() and example2.thing().
       //
       // This could be improved in the future, but it requires a stable mechanism for choosing an associated parent.
       // For thoughts about this:  https://github.com/microsoft/rushstack/issues/1308

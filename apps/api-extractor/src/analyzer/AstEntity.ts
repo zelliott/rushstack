@@ -44,3 +44,15 @@ export abstract class AstEntity {
  * cases are always kinds of `import` statements, but that may change in the future.
  */
 export abstract class AstSyntheticEntity extends AstEntity {}
+
+/** `AstEntityReference` is a reference to a particular `AstEntity`. */
+export interface IAstEntityReference {
+  astEntity: AstEntity;
+  kind: AstEntityReferenceKind;
+}
+
+/** `AstEntityReferenceKind` indicates the kind of reference to an `AstEntity`. */
+export const enum AstEntityReferenceKind {
+  Inheritance = 'Inheritance',
+  Normal = 'Normal'
+}
