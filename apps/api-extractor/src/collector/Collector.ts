@@ -10,7 +10,7 @@ import { ExtractorMessageId } from '../api/ExtractorMessageId';
 
 import { CollectorEntity } from './CollectorEntity';
 import { AstSymbolTable } from '../analyzer/AstSymbolTable';
-import { AstEntity } from '../analyzer/AstEntity';
+import { AstEntity, AstEntityReferenceKind } from '../analyzer/AstEntity';
 import { AstModule, AstModuleExportInfo } from '../analyzer/AstModule';
 import { AstSymbol } from '../analyzer/AstSymbol';
 import { AstDeclaration } from '../analyzer/AstDeclaration';
@@ -262,9 +262,9 @@ export class Collector {
     // Create a CollectorEntity for each indirectly referenced export.
     // Note that we do this *after* the above loop, so that references to exported AstSymbols
     // are encountered first as exports.
-    const alreadySeenAstSymbols: Set<AstSymbol> = new Set<AstSymbol>();
+    const alreadySeenAstEntities: Set<AstSymbol> = new Set<AstSymbol>();
     for (const exportedAstEntity of exportedAstEntities) {
-      this._createEntityForIndirectReferences(exportedAstEntity, alreadySeenAstSymbols);
+      this._createEntityForIndirectReferences(exportedAstEntity, alreadySeenAstEntities);
 
       if (exportedAstEntity instanceof AstSymbol) {
         this.fetchSymbolMetadata(exportedAstEntity);
@@ -414,7 +414,11 @@ export class Collector {
     return overloadIndex;
   }
 
-  private _createCollectorEntity(astEntity: AstEntity, exportedName: string | undefined): CollectorEntity {
+  private _createCollectorEntity(
+    astEntity: AstEntity,
+    exportedName: string | undefined,
+    consumableViaInheritance = false
+  ): CollectorEntity {
     let entity: CollectorEntity | undefined = this._entitiesByAstEntity.get(astEntity);
 
     if (!entity) {
@@ -427,6 +431,10 @@ export class Collector {
 
     if (exportedName) {
       entity.addExportName(exportedName);
+    }
+
+    if (consumableViaInheritance) {
+      entity.consumableViaInheritance = true;
     }
 
     return entity;
@@ -445,16 +453,26 @@ export class Collector {
       astEntity.forEachDeclarationRecursive((astDeclaration: AstDeclaration) => {
         for (const astEntityReference of astDeclaration.astEntityReferences) {
           const referencedAstEntity: AstEntity = astEntityReference.astEntity;
+          const referenceKind: AstEntityReferenceKind = astEntityReference.kind;
+
+          // TODO: Do AstNamespaceImports need this logic? Do AstImports even need this logic?
+          const entity: CollectorEntity | undefined = this._entitiesByAstEntity.get(astEntity);
+          if (!entity) {
+            // This should never happen.
+            throw new Error();
+          }
+          const consumableViaInheritance: boolean =
+            entity.consumable && referenceKind === AstEntityReferenceKind.Inheritance;
 
           if (referencedAstEntity instanceof AstSymbol) {
             // We only create collector entities for root-level symbols.
             // For example, if a symbols is nested inside a namespace, only the root-level namespace
             // get a collector entity
             if (referencedAstEntity.parentAstSymbol === undefined) {
-              this._createCollectorEntity(referencedAstEntity, undefined);
+              this._createCollectorEntity(referencedAstEntity, undefined, consumableViaInheritance);
             }
           } else {
-            this._createCollectorEntity(referencedAstEntity, undefined);
+            this._createCollectorEntity(referencedAstEntity, undefined, consumableViaInheritance);
           }
 
           this._createEntityForIndirectReferences(referencedAstEntity, alreadySeenAstEntities);

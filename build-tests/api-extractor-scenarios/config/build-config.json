@@ -34,6 +34,7 @@
     "importEquals",
     "importType",
     "inconsistentReleaseTags",
+    "inheritance",
     "internationalCharacters",
     "mergedDeclarations",
     "mixinPattern",
@@ -44,7 +45,6 @@
     "typeOf",
     "typeOf2",
     "typeOf3",
-    "typeParameters",
-    "unexportedBaseDeclaration"
+    "typeParameters"
   ]
 }

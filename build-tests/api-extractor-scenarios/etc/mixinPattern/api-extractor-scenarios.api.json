@@ -219,6 +219,33 @@
           "implementsTokenRanges": []
         },
         {
+          "kind": "Variable",
+          "canonicalReference": "api-extractor-scenarios!B_base:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "B_base: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    new (...args: any[]): {\n        mixinProp?: string | undefined;\n    };\n} & typeof "
+            },
+            {
+              "kind": "Reference",
+              "text": "A",
+              "canonicalReference": "api-extractor-scenarios!A:class"
+            }
+          ],
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "B_base",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          }
+        },
+        {
           "kind": "Class",
           "canonicalReference": "api-extractor-scenarios!B:class",
           "docComment": "/**\n * @public\n */\n",

@@ -10,11 +10,16 @@ export class A {
     prop?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "B_base" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export class B extends B_base {
 }
+
+// @public (undocumented)
+const B_base: {
+    new (...args: any[]): {
+        mixinProp?: string | undefined;
+    };
+} & typeof A;
 
 // (No @packageDocumentation comment for this package)
 

@@ -13,6 +13,10 @@ export class Lib1Class extends Lib1ForgottenExport {
 }
 
 // @public (undocumented)
+class Lib1ForgottenExport {
+}
+
+// @public (undocumented)
 export type Lib1GenericType<T1, T2> = {
     one: T1;
     two: T2;

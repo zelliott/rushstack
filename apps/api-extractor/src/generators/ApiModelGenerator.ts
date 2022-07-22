@@ -81,8 +81,9 @@ export class ApiModelGenerator {
     apiPackage.addMember(apiEntryPoint);
 
     // Create a CollectorEntity for each top-level export
+    // TODO: Fix comment above.
     for (const entity of this._collector.entities) {
-      if (entity.exported) {
+      if (entity.consumable || entity.consumableViaInheritance) {
         this._processAstEntity(entity.astEntity, entity.nameForEmit, apiEntryPoint);
       }
     }

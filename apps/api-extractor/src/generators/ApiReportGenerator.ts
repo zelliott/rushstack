@@ -78,7 +78,7 @@ export class ApiReportGenerator {
     // Emit the regular declarations
     for (const entity of collector.entities) {
       const astEntity: AstEntity = entity.astEntity;
-      if (entity.consumable) {
+      if (entity.consumable || entity.consumableViaInheritance) {
         // First, collect the list of export names for this symbol.  When reporting messages with
         // ExtractorMessage.properties.exportName, this will enable us to emit the warning comments alongside
         // the associated export statement.

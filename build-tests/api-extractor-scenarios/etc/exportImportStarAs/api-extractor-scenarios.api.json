@@ -173,6 +173,126 @@
       "preserveMemberOrder": false,
       "members": [
         {
+          "kind": "Function",
+          "canonicalReference": "api-extractor-scenarios!add_2:function(1)",
+          "docComment": "/**\n * Returns the sum of adding `b` to `a` for large integers\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of adding `b` to `a`\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function add(a: "
+            },
+            {
+              "kind": "Content",
+              "text": "bigint"
+            },
+            {
+              "kind": "Content",
+              "text": ", b: "
+            },
+            {
+              "kind": "Content",
+              "text": "bigint"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "bigint"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "a",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "b",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "add_2"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "api-extractor-scenarios!add:function(1)",
+          "docComment": "/**\n * Returns the sum of adding `b` to `a`\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of adding `b` to `a`\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function add(a: "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": ", b: "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "a",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "b",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "add"
+        },
+        {
           "kind": "Namespace",
           "canonicalReference": "api-extractor-scenarios!calculator:namespace",
           "docComment": "",
@@ -477,6 +597,148 @@
               "name": "subtract"
             }
           ]
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "api-extractor-scenarios!calucatorVersion:var",
+          "docComment": "/**\n * Returns the version of the calculator.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "calucatorVersion: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            }
+          ],
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "calucatorVersion",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "api-extractor-scenarios!subtract_2:function(1)",
+          "docComment": "/**\n * Returns the sum of subtracting `b` from `a` for large integers\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of subtract `b` from `a`\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function subtract(a: "
+            },
+            {
+              "kind": "Content",
+              "text": "bigint"
+            },
+            {
+              "kind": "Content",
+              "text": ", b: "
+            },
+            {
+              "kind": "Content",
+              "text": "bigint"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "bigint"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Beta",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "a",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "b",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "subtract_2"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "api-extractor-scenarios!subtract:function(1)",
+          "docComment": "/**\n * Returns the sum of subtracting `b` from `a`\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of subtract `b` from `a`\n *\n * @beta\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function subtract(a: "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": ", b: "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 6
+          },
+          "releaseTag": "Beta",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "a",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "b",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "subtract"
         }
       ]
     }

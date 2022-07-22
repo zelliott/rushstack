@@ -3,6 +3,8 @@
 
 import * as ts from 'typescript';
 import { AstSymbol } from './AstSymbol';
+import { AstImport } from './AstImport';
+import { AstNamespaceImport } from './AstNamespaceImport';
 import { Span } from './Span';
 import { InternalError } from '@rushstack/node-core-library';
 import { IAstEntityReference } from './AstEntity';
@@ -66,6 +68,7 @@ export class AstDeclaration {
   private readonly _analyzedChildren: AstDeclaration[] = [];
 
   private readonly _analyzedAstEntityReferences: Set<IAstEntityReference> = new Set<IAstEntityReference>();
+  private readonly _analyzedAstEntityReferencedBy: Set<IAstEntityReference> = new Set<IAstEntityReference>();
 
   // Reverse lookup used by findChildrenWithName()
   private _childrenByName: Map<string, AstDeclaration[]> | undefined = undefined;
@@ -110,6 +113,10 @@ export class AstDeclaration {
    */
   public get astEntityReferences(): ReadonlyArray<IAstEntityReference> {
     return this.astSymbol.analyzed ? [...this._analyzedAstEntityReferences] : [];
+  }
+
+  public get astEntityReferencedBy(): ReadonlyArray<IAstEntityReference> {
+    return this.astSymbol.analyzed ? [...this._analyzedAstEntityReferencedBy] : [];
   }
 
   /**
@@ -183,6 +190,31 @@ export class AstDeclaration {
     }
 
     this._analyzedAstEntityReferences.add(astEntityReference);
+
+    // if (astEntityReference.astEntity instanceof AstSymbol) {
+    //   for (const astDeclaration of astEntityReference.astEntity.astDeclarations) {
+    //     astDeclaration._notifyAstEntityReferencedBy({
+    //       astEntity: this.astSymbol,
+    //       kind: astEntityReference.kind,
+    //     });
+    //   }
+    // }
+
+    // // TODO: Unsure if I need to handle these cases. If not, then we can rename
+    // // `AstEntityReference` to `AstSymbolReference`.
+    // if (astEntityReference.astEntity instanceof AstNamespaceImport) {
+
+    // }
+    // if (astEntityReference.astEntity instanceof AstImport) {
+
+    // }
+  }
+
+  /**
+   * @internal
+   */
+  public _notifyAstEntityReferencedBy(astEntityReference: IAstEntityReference): void {
+    this._analyzedAstEntityReferencedBy.add(astEntityReference);
   }
 
   /**
