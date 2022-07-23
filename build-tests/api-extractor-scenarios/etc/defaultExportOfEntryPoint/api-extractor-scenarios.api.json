@@ -182,6 +182,7 @@
               "text": "export default class DefaultClass "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DefaultClass",
           "preserveMemberOrder": false,

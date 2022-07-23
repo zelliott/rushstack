@@ -174,7 +174,7 @@
       "members": [
         {
           "kind": "Class",
-          "canonicalReference": "api-extractor-scenarios!A:class",
+          "canonicalReference": "api-extractor-scenarios!~A:class",
           "docComment": "",
           "excerptTokens": [
             {
@@ -182,11 +182,76 @@
               "text": "declare class A "
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "A",
           "preserveMemberOrder": false,
           "members": [],
           "implementsTokenRanges": []
+        },
+        {
+          "kind": "Namespace",
+          "canonicalReference": "api-extractor-scenarios!AnotherNamespace:namespace",
+          "docComment": "/**\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare namespace AnotherNamespace "
+            }
+          ],
+          "isExported": true,
+          "releaseTag": "Public",
+          "name": "AnotherNamespace",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Class",
+              "canonicalReference": "api-extractor-scenarios!AnotherNamespace.A:class",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "class A "
+                }
+              ],
+              "isExported": true,
+              "releaseTag": "Public",
+              "name": "A",
+              "preserveMemberOrder": false,
+              "members": [],
+              "implementsTokenRanges": []
+            },
+            {
+              "kind": "Class",
+              "canonicalReference": "api-extractor-scenarios!AnotherNamespace.B:class",
+              "docComment": "/**\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "export class B extends "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "A",
+                  "canonicalReference": "api-extractor-scenarios!~A:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": " "
+                }
+              ],
+              "isExported": true,
+              "releaseTag": "Public",
+              "name": "B",
+              "preserveMemberOrder": false,
+              "members": [],
+              "extendsTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "implementsTokenRanges": []
+            }
+          ]
         },
         {
           "kind": "Class",
@@ -207,6 +272,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "B",
           "preserveMemberOrder": false,
@@ -236,6 +302,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExtendsClassWithinNamespace",
           "preserveMemberOrder": false,
@@ -265,6 +332,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExtendsIncludedButForgottenExport",
           "preserveMemberOrder": false,
@@ -325,6 +393,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExtendsMerged",
           "preserveMemberOrder": false,
@@ -337,7 +406,7 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "api-extractor-scenarios!IA:interface",
+          "canonicalReference": "api-extractor-scenarios!~IA:interface",
           "docComment": "",
           "excerptTokens": [
             {
@@ -345,6 +414,7 @@
               "text": "interface IA "
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "IA",
           "preserveMemberOrder": false,
@@ -353,7 +423,7 @@
         },
         {
           "kind": "TypeAlias",
-          "canonicalReference": "api-extractor-scenarios!IB:type",
+          "canonicalReference": "api-extractor-scenarios!~IB:type",
           "docComment": "",
           "excerptTokens": [
             {
@@ -369,6 +439,7 @@
               "text": ";"
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "IB",
           "typeTokenRange": {
@@ -378,7 +449,7 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "api-extractor-scenarios!IC:class",
+          "canonicalReference": "api-extractor-scenarios!~IC:class",
           "docComment": "",
           "excerptTokens": [
             {
@@ -386,6 +457,7 @@
               "text": "declare class IC "
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "IC",
           "preserveMemberOrder": false,
@@ -429,6 +501,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ID",
           "preserveMemberOrder": false,
@@ -450,7 +523,7 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "api-extractor-scenarios!IncludedButForgottenExport:class",
+          "canonicalReference": "api-extractor-scenarios!~IncludedButForgottenExport:class",
           "docComment": "",
           "excerptTokens": [
             {
@@ -458,6 +531,7 @@
               "text": "declare class IncludedButForgottenExport "
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "IncludedButForgottenExport",
           "preserveMemberOrder": false,
@@ -466,7 +540,7 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "api-extractor-scenarios!Merged:class",
+          "canonicalReference": "api-extractor-scenarios!~Merged:class",
           "docComment": "",
           "excerptTokens": [
             {
@@ -474,6 +548,7 @@
               "text": "declare class Merged "
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "Merged",
           "preserveMemberOrder": false,
@@ -482,7 +557,7 @@
         },
         {
           "kind": "Namespace",
-          "canonicalReference": "api-extractor-scenarios!Merged:namespace",
+          "canonicalReference": "api-extractor-scenarios!~Merged:namespace",
           "docComment": "",
           "excerptTokens": [
             {
@@ -490,13 +565,14 @@
               "text": "declare namespace Merged "
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "Merged",
           "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Function",
-              "canonicalReference": "api-extractor-scenarios!Merged.innerFunction:function(1)",
+              "canonicalReference": "api-extractor-scenarios!~Merged~innerFunction:function(1)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -512,6 +588,7 @@
                   "text": ";"
                 }
               ],
+              "isExported": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -542,6 +619,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "returnTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 2
@@ -553,7 +631,7 @@
         },
         {
           "kind": "Namespace",
-          "canonicalReference": "api-extractor-scenarios!SomeNamespace:namespace",
+          "canonicalReference": "api-extractor-scenarios!~SomeNamespace:namespace",
           "docComment": "",
           "excerptTokens": [
             {
@@ -561,13 +639,14 @@
               "text": "declare namespace SomeNamespace "
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "SomeNamespace",
           "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Class",
-              "canonicalReference": "api-extractor-scenarios!SomeNamespace.Extended:class",
+              "canonicalReference": "api-extractor-scenarios!~SomeNamespace~Extended:class",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -575,6 +654,7 @@
                   "text": "class Extended "
                 }
               ],
+              "isExported": false,
               "releaseTag": "Public",
               "name": "Extended",
               "preserveMemberOrder": false,
@@ -583,7 +663,7 @@
             },
             {
               "kind": "Class",
-              "canonicalReference": "api-extractor-scenarios!SomeNamespace.NotExtended:class",
+              "canonicalReference": "api-extractor-scenarios!~SomeNamespace~NotExtended:class",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -591,6 +671,7 @@
                   "text": "class NotExtended "
                 }
               ],
+              "isExported": false,
               "releaseTag": "Public",
               "name": "NotExtended",
               "preserveMemberOrder": false,

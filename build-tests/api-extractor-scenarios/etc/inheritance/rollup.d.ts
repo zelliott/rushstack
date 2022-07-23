@@ -2,6 +2,16 @@ declare class A {
 }
 
 /** @public */
+export declare namespace AnotherNamespace {
+    export class A {
+    }
+    /** @public */
+    export class B extends A {
+    }
+        {};
+}
+
+/** @public */
 export declare class B extends A {
 }
 

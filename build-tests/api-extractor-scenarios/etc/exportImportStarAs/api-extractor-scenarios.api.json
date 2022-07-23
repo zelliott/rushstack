@@ -174,7 +174,7 @@
       "members": [
         {
           "kind": "Function",
-          "canonicalReference": "api-extractor-scenarios!add_2:function(1)",
+          "canonicalReference": "api-extractor-scenarios!~add_2:function(1)",
           "docComment": "/**\n * Returns the sum of adding `b` to `a` for large integers\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of adding `b` to `a`\n *\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -206,6 +206,7 @@
               "text": ";"
             }
           ],
+          "isExported": false,
           "returnTypeTokenRange": {
             "startIndex": 5,
             "endIndex": 6
@@ -234,7 +235,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "api-extractor-scenarios!add:function(1)",
+          "canonicalReference": "api-extractor-scenarios!~add:function(1)",
           "docComment": "/**\n * Returns the sum of adding `b` to `a`\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of adding `b` to `a`\n *\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -266,6 +267,7 @@
               "text": ";"
             }
           ],
+          "isExported": false,
           "returnTypeTokenRange": {
             "startIndex": 5,
             "endIndex": 6
@@ -297,13 +299,14 @@
           "canonicalReference": "api-extractor-scenarios!calculator:namespace",
           "docComment": "",
           "excerptTokens": [],
+          "isExported": true,
           "releaseTag": "None",
           "name": "calculator",
           "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Function",
-              "canonicalReference": "api-extractor-scenarios!calculator.add:function(1)",
+              "canonicalReference": "api-extractor-scenarios!calculator~add:function(1)",
               "docComment": "/**\n * Returns the sum of adding `b` to `a`\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of adding `b` to `a`\n *\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -335,6 +338,7 @@
                   "text": ";"
                 }
               ],
+              "isExported": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
@@ -363,7 +367,7 @@
             },
             {
               "kind": "Variable",
-              "canonicalReference": "api-extractor-scenarios!calculator.calucatorVersion:var",
+              "canonicalReference": "api-extractor-scenarios!calculator~calucatorVersion:var",
               "docComment": "/**\n * Returns the version of the calculator.\n *\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -375,6 +379,7 @@
                   "text": "string"
                 }
               ],
+              "isExported": false,
               "isReadonly": true,
               "releaseTag": "Public",
               "name": "calucatorVersion",
@@ -385,7 +390,7 @@
             },
             {
               "kind": "Function",
-              "canonicalReference": "api-extractor-scenarios!calculator.subtract:function(1)",
+              "canonicalReference": "api-extractor-scenarios!calculator~subtract:function(1)",
               "docComment": "/**\n * Returns the sum of subtracting `b` from `a`\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of subtract `b` from `a`\n *\n * @beta\n */\n",
               "excerptTokens": [
                 {
@@ -417,6 +422,7 @@
                   "text": ";"
                 }
               ],
+              "isExported": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
@@ -450,13 +456,14 @@
           "canonicalReference": "api-extractor-scenarios!calculator2:namespace",
           "docComment": "",
           "excerptTokens": [],
+          "isExported": true,
           "releaseTag": "None",
           "name": "calculator2",
           "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Function",
-              "canonicalReference": "api-extractor-scenarios!calculator2.add:function(1)",
+              "canonicalReference": "api-extractor-scenarios!calculator2~add:function(1)",
               "docComment": "/**\n * Returns the sum of adding `b` to `a` for large integers\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of adding `b` to `a`\n *\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -488,6 +495,7 @@
                   "text": ";"
                 }
               ],
+              "isExported": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
@@ -516,7 +524,7 @@
             },
             {
               "kind": "Variable",
-              "canonicalReference": "api-extractor-scenarios!calculator2.calucatorVersion:var",
+              "canonicalReference": "api-extractor-scenarios!calculator2~calucatorVersion:var",
               "docComment": "/**\n * Returns the version of the calculator.\n *\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -528,6 +536,7 @@
                   "text": "string"
                 }
               ],
+              "isExported": false,
               "isReadonly": true,
               "releaseTag": "Public",
               "name": "calucatorVersion",
@@ -538,7 +547,7 @@
             },
             {
               "kind": "Function",
-              "canonicalReference": "api-extractor-scenarios!calculator2.subtract:function(1)",
+              "canonicalReference": "api-extractor-scenarios!calculator2~subtract:function(1)",
               "docComment": "/**\n * Returns the sum of subtracting `b` from `a` for large integers\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of subtract `b` from `a`\n *\n * @beta\n */\n",
               "excerptTokens": [
                 {
@@ -570,6 +579,7 @@
                   "text": ";"
                 }
               ],
+              "isExported": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
@@ -600,7 +610,7 @@
         },
         {
           "kind": "Variable",
-          "canonicalReference": "api-extractor-scenarios!calucatorVersion:var",
+          "canonicalReference": "api-extractor-scenarios!~calucatorVersion:var",
           "docComment": "/**\n * Returns the version of the calculator.\n *\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -612,6 +622,7 @@
               "text": "string"
             }
           ],
+          "isExported": false,
           "isReadonly": true,
           "releaseTag": "Public",
           "name": "calucatorVersion",
@@ -622,7 +633,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "api-extractor-scenarios!subtract_2:function(1)",
+          "canonicalReference": "api-extractor-scenarios!~subtract_2:function(1)",
           "docComment": "/**\n * Returns the sum of subtracting `b` from `a` for large integers\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of subtract `b` from `a`\n *\n * @beta\n */\n",
           "excerptTokens": [
             {
@@ -654,6 +665,7 @@
               "text": ";"
             }
           ],
+          "isExported": false,
           "returnTypeTokenRange": {
             "startIndex": 5,
             "endIndex": 6
@@ -682,7 +694,7 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "api-extractor-scenarios!subtract:function(1)",
+          "canonicalReference": "api-extractor-scenarios!~subtract:function(1)",
           "docComment": "/**\n * Returns the sum of subtracting `b` from `a`\n *\n * @param a - first number\n *\n * @param b - second number\n *\n * @returns Sum of subtract `b` from `a`\n *\n * @beta\n */\n",
           "excerptTokens": [
             {
@@ -714,6 +726,7 @@
               "text": ";"
             }
           ],
+          "isExported": false,
           "returnTypeTokenRange": {
             "startIndex": 5,
             "endIndex": 6

@@ -45,6 +45,7 @@ import { AstNamespaceImport } from '../analyzer/AstNamespaceImport';
 import { AstEntity } from '../analyzer/AstEntity';
 import { AstModule } from '../analyzer/AstModule';
 import { TypeScriptInternals } from '../analyzer/TypeScriptInternals';
+import { CollectorEntity } from '../collector/CollectorEntity';
 
 export class ApiModelGenerator {
   private readonly _collector: Collector;
@@ -145,7 +146,8 @@ export class ApiModelGenerator {
         name,
         docComment: undefined,
         releaseTag: ReleaseTag.None,
-        excerptTokens: []
+        excerptTokens: [],
+        isExported: true
       });
       parentApiItem.addMember(apiNamespace);
     }
@@ -394,6 +396,7 @@ export class ApiModelGenerator {
       const apiItemMetadata: ApiItemMetadata = this._collector.fetchApiItemMetadata(astDeclaration);
       const docComment: tsdoc.DocComment | undefined = apiItemMetadata.tsdocComment;
       const releaseTag: ReleaseTag = apiItemMetadata.effectiveReleaseTag;
+      const isExported: boolean = this._isExported(astDeclaration);
 
       apiClass = new ApiClass({
         name,
@@ -402,7 +405,8 @@ export class ApiModelGenerator {
         excerptTokens,
         typeParameters,
         extendsTokenRange,
-        implementsTokenRanges
+        implementsTokenRanges,
+        isExported
       });
 
       parentApiItem.addMember(apiClass);
@@ -478,8 +482,9 @@ export class ApiModelGenerator {
       const releaseTag: ReleaseTag = apiItemMetadata.effectiveReleaseTag;
       const preserveMemberOrder: boolean =
         this._collector.extractorConfig.enumMemberOrder === EnumMemberOrder.Preserve;
+      const isExported: boolean = this._isExported(astDeclaration);
 
-      apiEnum = new ApiEnum({ name, docComment, releaseTag, excerptTokens, preserveMemberOrder });
+      apiEnum = new ApiEnum({ name, docComment, releaseTag, excerptTokens, preserveMemberOrder, isExported });
       parentApiItem.addMember(apiEnum);
     }
 
@@ -561,9 +566,7 @@ export class ApiModelGenerator {
       const apiItemMetadata: ApiItemMetadata = this._collector.fetchApiItemMetadata(astDeclaration);
       const docComment: tsdoc.DocComment | undefined = apiItemMetadata.tsdocComment;
       const releaseTag: ReleaseTag = apiItemMetadata.effectiveReleaseTag;
-      if (releaseTag === ReleaseTag.Internal || releaseTag === ReleaseTag.Alpha) {
-        return; // trim out items marked as "@internal" or "@alpha"
-      }
+      const isExported: boolean = this._isExported(astDeclaration);
 
       apiFunction = new ApiFunction({
         name,
@@ -573,7 +576,8 @@ export class ApiModelGenerator {
         parameters,
         overloadIndex,
         excerptTokens,
-        returnTypeTokenRange
+        returnTypeTokenRange,
+        isExported
       });
 
       parentApiItem.addMember(apiFunction);
@@ -665,6 +669,7 @@ export class ApiModelGenerator {
       const apiItemMetadata: ApiItemMetadata = this._collector.fetchApiItemMetadata(astDeclaration);
       const docComment: tsdoc.DocComment | undefined = apiItemMetadata.tsdocComment;
       const releaseTag: ReleaseTag = apiItemMetadata.effectiveReleaseTag;
+      const isExported: boolean = this._isExported(astDeclaration);
 
       apiInterface = new ApiInterface({
         name,
@@ -672,7 +677,8 @@ export class ApiModelGenerator {
         releaseTag,
         excerptTokens,
         typeParameters,
-        extendsTokenRanges
+        extendsTokenRanges,
+        isExported
       });
 
       parentApiItem.addMember(apiInterface);
@@ -716,9 +722,6 @@ export class ApiModelGenerator {
       const apiItemMetadata: ApiItemMetadata = this._collector.fetchApiItemMetadata(astDeclaration);
       const docComment: tsdoc.DocComment | undefined = apiItemMetadata.tsdocComment;
       const releaseTag: ReleaseTag = apiItemMetadata.effectiveReleaseTag;
-      if (releaseTag === ReleaseTag.Internal || releaseTag === ReleaseTag.Alpha) {
-        return; // trim out items marked as "@internal" or "@alpha"
-      }
       const isOptional: boolean =
         (astDeclaration.astSymbol.followedSymbol.flags & ts.SymbolFlags.Optional) !== 0;
       const isProtected: boolean = (astDeclaration.modifierFlags & ts.ModifierFlags.Protected) !== 0;
@@ -813,8 +816,9 @@ export class ApiModelGenerator {
       const apiItemMetadata: ApiItemMetadata = this._collector.fetchApiItemMetadata(astDeclaration);
       const docComment: tsdoc.DocComment | undefined = apiItemMetadata.tsdocComment;
       const releaseTag: ReleaseTag = apiItemMetadata.effectiveReleaseTag;
+      const isExported: boolean = this._isExported(astDeclaration);
 
-      apiNamespace = new ApiNamespace({ name, docComment, releaseTag, excerptTokens });
+      apiNamespace = new ApiNamespace({ name, docComment, releaseTag, excerptTokens, isExported });
       parentApiItem.addMember(apiNamespace);
     }
 
@@ -962,6 +966,7 @@ export class ApiModelGenerator {
       const apiItemMetadata: ApiItemMetadata = this._collector.fetchApiItemMetadata(astDeclaration);
       const docComment: tsdoc.DocComment | undefined = apiItemMetadata.tsdocComment;
       const releaseTag: ReleaseTag = apiItemMetadata.effectiveReleaseTag;
+      const isExported: boolean = this._isExported(astDeclaration);
 
       apiTypeAlias = new ApiTypeAlias({
         name,
@@ -969,7 +974,8 @@ export class ApiModelGenerator {
         typeParameters,
         releaseTag,
         excerptTokens,
-        typeTokenRange
+        typeTokenRange,
+        isExported
       });
 
       parentApiItem.addMember(apiTypeAlias);
@@ -1007,6 +1013,7 @@ export class ApiModelGenerator {
       const docComment: tsdoc.DocComment | undefined = apiItemMetadata.tsdocComment;
       const releaseTag: ReleaseTag = apiItemMetadata.effectiveReleaseTag;
       const isReadonly: boolean = this._isReadonly(astDeclaration);
+      const isExported: boolean = this._isExported(astDeclaration);
 
       apiVariable = new ApiVariable({
         name,
@@ -1015,7 +1022,8 @@ export class ApiModelGenerator {
         excerptTokens,
         variableTypeTokenRange,
         initializerTokenRange,
-        isReadonly
+        isReadonly,
+        isExported
       });
 
       parentApiItem.addMember(apiVariable);
@@ -1119,5 +1127,19 @@ export class ApiModelGenerator {
         return false;
       }
     }
+  }
+
+  private _isExported(astDeclaration: AstDeclaration): boolean {
+    // TODO not sure if this rootAstSymbol bit is right.
+    const entity: CollectorEntity | undefined = this._collector.tryGetCollectorEntity(
+      astDeclaration.astSymbol.rootAstSymbol
+    );
+
+    // TODO not sure if this can happen.
+    if (!entity) {
+      throw new Error();
+    }
+
+    return entity.exported;
   }
 }

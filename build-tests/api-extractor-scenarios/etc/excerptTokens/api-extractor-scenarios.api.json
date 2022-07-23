@@ -186,6 +186,7 @@
               "text": "number"
             }
           ],
+          "isExported": true,
           "isReadonly": false,
           "releaseTag": "Public",
           "name": "MY_CONSTANT",
@@ -204,6 +205,7 @@
               "text": "export class MyClass "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "MyClass",
           "preserveMemberOrder": false,

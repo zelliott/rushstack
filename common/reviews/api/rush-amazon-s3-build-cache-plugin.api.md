@@ -61,8 +61,6 @@ export interface IAmazonS3Credentials {
     sessionToken: string | undefined;
 }
 
-// Warning: (ae-forgotten-export) The symbol "IWebFetchOptionsBase" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface IGetFetchOptions extends IWebFetchOptionsBase {
     // (undocumented)
@@ -75,6 +73,16 @@ export interface IPutFetchOptions extends IWebFetchOptionsBase {
     body?: Buffer;
     // (undocumented)
     verb: 'PUT';
+}
+
+// @public (undocumented)
+interface IWebFetchOptionsBase {
+    // (undocumented)
+    headers?: fetch.Headers;
+    // (undocumented)
+    timeoutMs?: number;
+    // (undocumented)
+    verb?: 'GET' | 'PUT';
 }
 
 // @public (undocumented)

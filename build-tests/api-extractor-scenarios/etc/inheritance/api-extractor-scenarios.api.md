@@ -9,6 +9,17 @@ class A {
 }
 
 // @public (undocumented)
+export namespace AnotherNamespace {
+    // (undocumented)
+    export class A {
+    }
+    // (undocumented)
+    export class B extends A {
+    }
+        {};
+}
+
+// @public (undocumented)
 export class B extends A {
 }
 

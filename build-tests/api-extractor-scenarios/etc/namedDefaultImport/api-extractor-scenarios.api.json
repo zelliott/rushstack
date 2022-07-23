@@ -182,6 +182,7 @@
               "text": "export interface DefaultImportTypes "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DefaultImportTypes",
           "preserveMemberOrder": false,

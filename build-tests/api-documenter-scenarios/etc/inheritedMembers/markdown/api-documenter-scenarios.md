@@ -14,6 +14,7 @@
 |  [ExtendsClassFromAnotherPackage](./api-documenter-scenarios.extendsclassfromanotherpackage.md) | Some class that extends a class from another package. This base class is not in any API doc model. |
 |  [ExtendsClassLikeVariable](./api-documenter-scenarios.extendsclasslikevariable.md) | Some class that extends a class-like variable. |
 |  [ExtendsUnexportedClass](./api-documenter-scenarios.extendsunexportedclass.md) | Some class that extends an unexported class. |
+|  [UnexportedClass](./api-documenter-scenarios.unexportedclass.md) |  |
 
 ## Interfaces
 
@@ -35,6 +36,7 @@
 |  Variable | Description |
 |  --- | --- |
 |  [ClassLikeVariable](./api-documenter-scenarios.classlikevariable.md) | Some class-like variable. |
+|  [ExtendsAnonymousClass\_base](./api-documenter-scenarios.extendsanonymousclass_base.md) |  |
 
 ## Type Aliases
 

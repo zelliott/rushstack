@@ -186,6 +186,7 @@
               "text": "\"literal\""
             }
           ],
+          "isExported": true,
           "isReadonly": true,
           "releaseTag": "Public",
           "name": "_default",

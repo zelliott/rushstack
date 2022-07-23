@@ -11,7 +11,11 @@ Some class that extends an unexported class.
 ```typescript
 export declare class ExtendsUnexportedClass extends UnexportedClass 
 ```
-<b>Extends:</b> UnexportedClass
+<b>Extends:</b> [UnexportedClass](./api-documenter-scenarios.unexportedclass.md)
 
-<i>(Some inherited members may not be shown because they are not represented in the documentation.)</i>
+## Properties
+
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [someProp](./api-documenter-scenarios.unexportedclass.someprop.md) |  | number | (Inherited from [UnexportedClass](./api-documenter-scenarios.unexportedclass.md)<!-- -->) |
 

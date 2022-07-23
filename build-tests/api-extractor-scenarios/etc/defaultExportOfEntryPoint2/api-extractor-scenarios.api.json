@@ -186,6 +186,7 @@
               "text": "() => void"
             }
           ],
+          "isExported": true,
           "isReadonly": true,
           "releaseTag": "Public",
           "name": "defaultFunctionStatement",

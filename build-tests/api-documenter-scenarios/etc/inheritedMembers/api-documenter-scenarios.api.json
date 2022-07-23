@@ -191,6 +191,7 @@
               "text": "<number> "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "Class1",
           "preserveMemberOrder": false,
@@ -326,6 +327,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "typeParameters": [
             {
@@ -469,9 +471,33 @@
               "text": "{\n    new (): {\n        someProp: number;\n    };\n}"
             }
           ],
+          "isExported": true,
           "isReadonly": true,
           "releaseTag": "Public",
           "name": "ClassLikeVariable",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "api-documenter-scenarios!~ExtendsAnonymousClass_base:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "ExtendsAnonymousClass_base: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    new (): {\n        someProp: number;\n    };\n}"
+            }
+          ],
+          "isExported": false,
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "ExtendsAnonymousClass_base",
           "variableTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 2
@@ -496,6 +522,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExtendsAnonymousClass",
           "preserveMemberOrder": false,
@@ -525,6 +552,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExtendsClassFromAnotherPackage",
           "preserveMemberOrder": false,
@@ -554,6 +582,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExtendsClassLikeVariable",
           "preserveMemberOrder": false,
@@ -583,6 +612,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExtendsUnexportedClass",
           "preserveMemberOrder": false,
@@ -621,6 +651,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IExtendsInterfaceLikeTypeAlias",
           "preserveMemberOrder": false,
@@ -664,6 +695,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IExtendsMultipleInterfaces",
           "preserveMemberOrder": false,
@@ -744,6 +776,7 @@
               "text": "export interface IInterface1 "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IInterface1",
           "preserveMemberOrder": false,
@@ -815,6 +848,7 @@
               "text": "export interface IInterface2 "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IInterface2",
           "preserveMemberOrder": false,
@@ -867,6 +901,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IInterfaceLikeTypeAlias",
           "typeTokenRange": {
@@ -884,6 +919,7 @@
               "text": "export declare namespace Namespace1 "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "Namespace1",
           "preserveMemberOrder": false,
@@ -898,6 +934,7 @@
                   "text": "class Class3 "
                 }
               ],
+              "isExported": true,
               "releaseTag": "Public",
               "name": "Class3",
               "preserveMemberOrder": false,
@@ -1076,6 +1113,53 @@
               "implementsTokenRanges": []
             }
           ]
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "api-documenter-scenarios!~UnexportedClass:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare class UnexportedClass "
+            }
+          ],
+          "isExported": false,
+          "releaseTag": "Public",
+          "name": "UnexportedClass",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Property",
+              "canonicalReference": "api-documenter-scenarios!~UnexportedClass#someProp:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "someProp: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "someProp",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false
+            }
+          ],
+          "implementsTokenRanges": []
         }
       ]
     }

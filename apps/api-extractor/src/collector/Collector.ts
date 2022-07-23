@@ -363,7 +363,7 @@ export class Collector {
    * @remarks
    * This causes internal definitions to sort alphabetically case-insensitive, then case-sensitive, and
    * initially ignoring the underscore prefix, while still deterministically comparing it.
-   * The star is used as a delimiter because it is not a legal  identifier character.
+   * The star is used as a delimiter because it is not a legal identifier character.
    */
   public static getSortKeyIgnoringUnderscore(identifier: string | undefined): string {
     if (!identifier) return '';

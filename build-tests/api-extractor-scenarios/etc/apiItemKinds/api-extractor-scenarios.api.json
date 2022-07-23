@@ -182,6 +182,7 @@
               "text": "export declare abstract class AbstractClass "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "AbstractClass",
           "preserveMemberOrder": false,
@@ -229,6 +230,7 @@
               "text": "export declare class ClassWithTypeLiterals "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ClassWithTypeLiterals",
           "preserveMemberOrder": false,
@@ -336,6 +338,7 @@
               "text": "string"
             }
           ],
+          "isExported": true,
           "isReadonly": true,
           "releaseTag": "Public",
           "name": "CONST_VARIABLE",
@@ -354,6 +357,7 @@
               "text": "export declare const enum ConstEnum "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ConstEnum",
           "preserveMemberOrder": false,
@@ -433,6 +437,7 @@
               "text": "export interface IInterface "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IInterface",
           "preserveMemberOrder": false,
@@ -477,6 +482,7 @@
               "text": "export declare namespace NamespaceContainingVariable "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "NamespaceContainingVariable",
           "preserveMemberOrder": false,
@@ -495,6 +501,7 @@
                   "text": "object[]"
                 }
               ],
+              "isExported": true,
               "isReadonly": false,
               "releaseTag": "Public",
               "name": "constVariable",
@@ -517,6 +524,7 @@
                   "text": "object[]"
                 }
               ],
+              "isExported": true,
               "isReadonly": false,
               "releaseTag": "Public",
               "name": "variable",
@@ -541,6 +549,7 @@
               "text": "string"
             }
           ],
+          "isExported": true,
           "isReadonly": false,
           "releaseTag": "Public",
           "name": "nonConstVariable",
@@ -559,6 +568,7 @@
               "text": "export declare enum RegularEnum "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "RegularEnum",
           "preserveMemberOrder": false,
@@ -638,6 +648,7 @@
               "text": "export declare class SimpleClass "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "SimpleClass",
           "preserveMemberOrder": false,
@@ -860,6 +871,7 @@
               "text": "\"hello\""
             }
           ],
+          "isExported": true,
           "initializerTokenRange": {
             "startIndex": 1,
             "endIndex": 2

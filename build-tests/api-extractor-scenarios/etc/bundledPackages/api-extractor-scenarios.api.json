@@ -208,6 +208,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "returnTypeTokenRange": {
             "startIndex": 5,
             "endIndex": 6
@@ -253,6 +254,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "Lib1Class",
           "preserveMemberOrder": false,
@@ -324,7 +326,7 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "api-extractor-scenarios!Lib1ForgottenExport:class",
+          "canonicalReference": "api-extractor-scenarios!~Lib1ForgottenExport:class",
           "docComment": "",
           "excerptTokens": [
             {
@@ -332,6 +334,7 @@
               "text": "export declare class Lib1ForgottenExport "
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "Lib1ForgottenExport",
           "preserveMemberOrder": false,

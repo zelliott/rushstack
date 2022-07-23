@@ -182,6 +182,7 @@
               "text": "export declare class MergedClassAndInterface "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "MergedClassAndInterface",
           "preserveMemberOrder": false,
@@ -228,6 +229,7 @@
               "text": "export interface MergedClassAndInterface "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "MergedClassAndInterface",
           "preserveMemberOrder": false,
@@ -317,6 +319,7 @@
               "text": "export declare class MergedClassAndNamespace "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "MergedClassAndNamespace",
           "preserveMemberOrder": false,
@@ -363,6 +366,7 @@
               "text": "export declare namespace MergedClassAndNamespace "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "MergedClassAndNamespace",
           "preserveMemberOrder": false,
@@ -381,6 +385,7 @@
                   "text": "number"
                 }
               ],
+              "isExported": true,
               "isReadonly": false,
               "releaseTag": "Public",
               "name": "anotherProp",
@@ -401,6 +406,7 @@
               "text": "export interface MergedInterfaces "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "MergedInterfaces",
           "preserveMemberOrder": false,

@@ -216,6 +216,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "returnTypeTokenRange": {
             "startIndex": 7,
             "endIndex": 8

@@ -182,6 +182,7 @@
               "text": "export interface IBeta "
             }
           ],
+          "isExported": true,
           "releaseTag": "Beta",
           "name": "IBeta",
           "preserveMemberOrder": false,
@@ -235,6 +236,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "returnTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 2

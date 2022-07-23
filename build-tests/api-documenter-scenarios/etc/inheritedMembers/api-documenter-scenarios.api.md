@@ -27,11 +27,16 @@ export const ClassLikeVariable: {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "ExtendsAnonymousClass_base" needs to be exported by the entry point index.d.ts
-//
 // @public
 export class ExtendsAnonymousClass extends ExtendsAnonymousClass_base {
 }
+
+// @public (undocumented)
+const ExtendsAnonymousClass_base: {
+    new (): {
+        someProp: number;
+    };
+};
 
 // @public
 export class ExtendsClassFromAnotherPackage extends Extractor {
@@ -41,8 +46,6 @@ export class ExtendsClassFromAnotherPackage extends Extractor {
 export class ExtendsClassLikeVariable extends ClassLikeVariable {
 }
 
-// Warning: (ae-forgotten-export) The symbol "UnexportedClass" needs to be exported by the entry point index.d.ts
-//
 // @public
 export class ExtendsUnexportedClass extends UnexportedClass {
 }
@@ -82,6 +85,12 @@ export namespace Namespace1 {
         someOverload(x: string): void;
         someProp: number;
     }
+}
+
+// @public (undocumented)
+class UnexportedClass {
+    // (undocumented)
+    someProp: number;
 }
 
 // (No @packageDocumentation comment for this package)

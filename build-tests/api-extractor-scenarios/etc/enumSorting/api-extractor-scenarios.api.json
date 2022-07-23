@@ -182,6 +182,7 @@
               "text": "export declare const enum ConstEnum "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ConstEnum",
           "preserveMemberOrder": true,
@@ -261,6 +262,7 @@
               "text": "export declare enum RegularEnum "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "RegularEnum",
           "preserveMemberOrder": true,

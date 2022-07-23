@@ -174,7 +174,7 @@
       "members": [
         {
           "kind": "Function",
-          "canonicalReference": "api-extractor-scenarios!exportedApi:function(1)",
+          "canonicalReference": "api-extractor-scenarios!~exportedApi:function(1)",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -195,6 +195,7 @@
               "text": ";"
             }
           ],
+          "isExported": false,
           "returnTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 3
@@ -206,7 +207,7 @@
         },
         {
           "kind": "Class",
-          "canonicalReference": "api-extractor-scenarios!ForgottenClass:class",
+          "canonicalReference": "api-extractor-scenarios!~ForgottenClass:class",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -214,6 +215,7 @@
               "text": "export declare class ForgottenClass "
             }
           ],
+          "isExported": false,
           "releaseTag": "Public",
           "name": "ForgottenClass",
           "preserveMemberOrder": false,
@@ -225,13 +227,14 @@
           "canonicalReference": "api-extractor-scenarios!ns:namespace",
           "docComment": "",
           "excerptTokens": [],
+          "isExported": true,
           "releaseTag": "None",
           "name": "ns",
           "preserveMemberOrder": false,
           "members": [
             {
               "kind": "Function",
-              "canonicalReference": "api-extractor-scenarios!ns.exportedApi:function(1)",
+              "canonicalReference": "api-extractor-scenarios!ns~exportedApi:function(1)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -252,6 +255,7 @@
                   "text": ";"
                 }
               ],
+              "isExported": false,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3

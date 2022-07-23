@@ -182,6 +182,7 @@
               "text": "export interface ITeamsContext "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ITeamsContext",
           "preserveMemberOrder": false,

@@ -191,6 +191,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "Child",
           "preserveMemberOrder": false,

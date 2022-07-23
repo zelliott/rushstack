@@ -58,3 +58,14 @@ namespace SomeNamespace {
 
 /** @public */
 export class ExtendsClassWithinNamespace extends SomeNamespace.Extended {}
+
+/** @public */
+export namespace AnotherNamespace {
+  // This class should be included in the API report and API doc model despite
+  // not being exported because it is reachable via inheritance from `B`. It
+  // should also not be marked as a forgotten export.
+  class A {}
+
+  /** @public */
+  export class B extends A {}
+}

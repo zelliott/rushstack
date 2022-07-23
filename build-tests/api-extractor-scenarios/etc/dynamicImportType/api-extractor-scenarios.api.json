@@ -182,6 +182,7 @@
               "text": "export declare class Item "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "Item",
           "preserveMemberOrder": false,

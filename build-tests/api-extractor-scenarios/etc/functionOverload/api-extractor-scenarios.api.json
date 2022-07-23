@@ -206,6 +206,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "returnTypeTokenRange": {
             "startIndex": 5,
             "endIndex": 6
@@ -266,6 +267,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "returnTypeTokenRange": {
             "startIndex": 5,
             "endIndex": 6
@@ -326,6 +328,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "returnTypeTokenRange": {
             "startIndex": 5,
             "endIndex": 6
@@ -362,6 +365,7 @@
               "text": "export declare class Combiner "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "Combiner",
           "preserveMemberOrder": false,
