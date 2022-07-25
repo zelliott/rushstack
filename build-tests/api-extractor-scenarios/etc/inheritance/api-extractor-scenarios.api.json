@@ -183,7 +183,7 @@
             }
           ],
           "isExported": false,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "A",
           "preserveMemberOrder": false,
           "members": [],
@@ -405,6 +405,36 @@
           "implementsTokenRanges": []
         },
         {
+          "kind": "Class",
+          "canonicalReference": "api-extractor-scenarios!ExtendsUnexportedWithForgottenExports:class",
+          "docComment": "/**\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class ExtendsUnexportedWithForgottenExports extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "UnexportedWithForgottenExports",
+              "canonicalReference": "api-extractor-scenarios!~UnexportedWithForgottenExports:class"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "isExported": true,
+          "releaseTag": "Public",
+          "name": "ExtendsUnexportedWithForgottenExports",
+          "preserveMemberOrder": false,
+          "members": [],
+          "extendsTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "implementsTokenRanges": []
+        },
+        {
           "kind": "Interface",
           "canonicalReference": "api-extractor-scenarios!~IA:interface",
           "docComment": "",
@@ -415,7 +445,7 @@
             }
           ],
           "isExported": false,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "IA",
           "preserveMemberOrder": false,
           "members": [],
@@ -440,7 +470,7 @@
             }
           ],
           "isExported": false,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "IB",
           "typeTokenRange": {
             "startIndex": 1,
@@ -458,7 +488,7 @@
             }
           ],
           "isExported": false,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "IC",
           "preserveMemberOrder": false,
           "members": [],
@@ -532,7 +562,7 @@
             }
           ],
           "isExported": false,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "IncludedButForgottenExport",
           "preserveMemberOrder": false,
           "members": [],
@@ -549,7 +579,7 @@
             }
           ],
           "isExported": false,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "Merged",
           "preserveMemberOrder": false,
           "members": [],
@@ -566,7 +596,7 @@
             }
           ],
           "isExported": false,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "Merged",
           "preserveMemberOrder": false,
           "members": [
@@ -593,7 +623,7 @@
                 "startIndex": 1,
                 "endIndex": 2
               },
-              "releaseTag": "Public",
+              "releaseTag": "None",
               "overloadIndex": 1,
               "parameters": [],
               "name": "innerFunction"
@@ -611,8 +641,8 @@
             },
             {
               "kind": "Reference",
-              "text": "UnexportedClass",
-              "canonicalReference": "api-extractor-scenarios!~UnexportedClass:class"
+              "text": "Unexported",
+              "canonicalReference": "api-extractor-scenarios!~Unexported:class"
             },
             {
               "kind": "Content",
@@ -640,7 +670,7 @@
             }
           ],
           "isExported": false,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "SomeNamespace",
           "preserveMemberOrder": false,
           "members": [
@@ -655,7 +685,7 @@
                 }
               ],
               "isExported": false,
-              "releaseTag": "Public",
+              "releaseTag": "None",
               "name": "Extended",
               "preserveMemberOrder": false,
               "members": [],
@@ -672,13 +702,91 @@
                 }
               ],
               "isExported": false,
-              "releaseTag": "Public",
+              "releaseTag": "None",
               "name": "NotExtended",
               "preserveMemberOrder": false,
               "members": [],
               "implementsTokenRanges": []
             }
           ]
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "api-extractor-scenarios!~UnexportedWithForgottenExports:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare class UnexportedWithForgottenExports "
+            }
+          ],
+          "isExported": false,
+          "releaseTag": "None",
+          "name": "UnexportedWithForgottenExports",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Property",
+              "canonicalReference": "api-extractor-scenarios!~UnexportedWithForgottenExports#anotherProp:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "anotherProp: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "UnexportedWithForgottenExports",
+                  "canonicalReference": "api-extractor-scenarios!~UnexportedWithForgottenExports:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "None",
+              "name": "anotherProp",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "api-extractor-scenarios!~UnexportedWithForgottenExports#prop:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "prop: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ForgottenExport",
+                  "canonicalReference": "api-extractor-scenarios!~ForgottenExport:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "None",
+              "name": "prop",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false
+            }
+          ],
+          "implementsTokenRanges": []
         }
       ]
     }

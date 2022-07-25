@@ -28,6 +28,12 @@ export declare class ExtendsIncludedButForgottenExport extends IncludedButForgot
 export declare class ExtendsMerged extends Merged {
 }
 
+/** @public */
+export declare class ExtendsUnexportedWithForgottenExports extends UnexportedWithForgottenExports {
+}
+
+declare type ForgottenExport = number;
+
 declare interface IA {
 }
 
@@ -54,7 +60,7 @@ declare namespace Merged {
 }
 
 /** @public */
-export declare function someFunction(): UnexportedClass;
+export declare function someFunction(): Unexported;
 
 declare namespace SomeNamespace {
     class Extended {
@@ -63,7 +69,12 @@ declare namespace SomeNamespace {
     }
 }
 
-declare class UnexportedClass {
+declare class Unexported {
+}
+
+declare class UnexportedWithForgottenExports {
+    prop: ForgottenExport;
+    anotherProp: UnexportedWithForgottenExports;
 }
 
 export { }

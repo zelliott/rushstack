@@ -417,7 +417,7 @@ export class Collector {
   private _createCollectorEntity(
     astEntity: AstEntity,
     exportedName: string | undefined,
-    consumableViaInheritance = false
+    consumableViaInheritance: boolean = false
   ): CollectorEntity {
     let entity: CollectorEntity | undefined = this._entitiesByAstEntity.get(astEntity);
 
@@ -846,10 +846,12 @@ export class Collector {
               astSymbol
             );
           }
-        }
-      }
 
-      options.effectiveReleaseTag = ReleaseTag.Public;
+          options.effectiveReleaseTag = ReleaseTag.Public;
+        }
+      } else {
+        options.effectiveReleaseTag = ReleaseTag.Public;
+      }
     }
 
     const apiItemMetadata: ApiItemMetadata = new ApiItemMetadata(options);

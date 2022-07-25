@@ -12,7 +12,7 @@ export class Lib1Class extends Lib1ForgottenExport {
     writeableProperty: string;
 }
 
-// @public (undocumented)
+// (undocumented)
 class Lib1ForgottenExport {
 }
 

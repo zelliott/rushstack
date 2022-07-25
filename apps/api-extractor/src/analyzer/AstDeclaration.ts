@@ -3,11 +3,9 @@
 
 import * as ts from 'typescript';
 import { AstSymbol } from './AstSymbol';
-import { AstImport } from './AstImport';
-import { AstNamespaceImport } from './AstNamespaceImport';
 import { Span } from './Span';
 import { InternalError } from '@rushstack/node-core-library';
-import { IAstEntityReference } from './AstEntity';
+import { AstEntity, IAstEntityReference, AstEntityReferenceKind } from './AstEntity';
 
 /**
  * Constructor options for AstDeclaration
@@ -68,7 +66,12 @@ export class AstDeclaration {
   private readonly _analyzedChildren: AstDeclaration[] = [];
 
   private readonly _analyzedAstEntityReferences: Set<IAstEntityReference> = new Set<IAstEntityReference>();
-  private readonly _analyzedAstEntityReferencedBy: Set<IAstEntityReference> = new Set<IAstEntityReference>();
+
+  /**
+   * This data structure allows us to ensure we don't store the same exact kind of entity reference twice.
+   */
+  private readonly _analyzedAstEntityReferenceKindsByAstEntity: Map<AstEntity, Set<AstEntityReferenceKind>> =
+    new Map<AstEntity, Set<AstEntityReferenceKind>>();
 
   // Reverse lookup used by findChildrenWithName()
   private _childrenByName: Map<string, AstDeclaration[]> | undefined = undefined;
@@ -110,13 +113,11 @@ export class AstDeclaration {
 
   /**
    * Returns the `AstEntityReference` objects associated with this `AstDeclaration`.
+   * @remarks
+   * The collection will be empty until AstSymbol.analyzed is true.
    */
   public get astEntityReferences(): ReadonlyArray<IAstEntityReference> {
     return this.astSymbol.analyzed ? [...this._analyzedAstEntityReferences] : [];
-  }
-
-  public get astEntityReferencedBy(): ReadonlyArray<IAstEntityReference> {
-    return this.astSymbol.analyzed ? [...this._analyzedAstEntityReferencedBy] : [];
   }
 
   /**
@@ -178,43 +179,23 @@ export class AstDeclaration {
       throw new InternalError('_notifyAstEntityReference() called after analysis is already complete');
     }
 
-    for (let current: AstDeclaration | undefined = this; current; current = current.parent) {
-      // Don't add references to symbols that are already referenced by a parent
-      if (current._analyzedAstEntityReferences.has(astEntityReference)) {
-        return;
-      }
-      // Don't add the symbols of parents either
-      if (astEntityReference.astEntity === current.astSymbol) {
-        return;
-      }
+    const { astEntity, kind }: IAstEntityReference = astEntityReference;
+
+    // Return out if we're already tracking this reference.
+    const referenceKinds: Set<AstEntityReferenceKind> | undefined =
+      this._analyzedAstEntityReferenceKindsByAstEntity.get(astEntity);
+    if (referenceKinds && referenceKinds.has(kind)) return;
+
+    // Otherwise, track this reference.
+    if (!referenceKinds) {
+      this._analyzedAstEntityReferenceKindsByAstEntity.set(
+        astEntity,
+        new Set<AstEntityReferenceKind>([kind])
+      );
+    } else {
+      referenceKinds.add(kind);
     }
-
     this._analyzedAstEntityReferences.add(astEntityReference);
-
-    // if (astEntityReference.astEntity instanceof AstSymbol) {
-    //   for (const astDeclaration of astEntityReference.astEntity.astDeclarations) {
-    //     astDeclaration._notifyAstEntityReferencedBy({
-    //       astEntity: this.astSymbol,
-    //       kind: astEntityReference.kind,
-    //     });
-    //   }
-    // }
-
-    // // TODO: Unsure if I need to handle these cases. If not, then we can rename
-    // // `AstEntityReference` to `AstSymbolReference`.
-    // if (astEntityReference.astEntity instanceof AstNamespaceImport) {
-
-    // }
-    // if (astEntityReference.astEntity instanceof AstImport) {
-
-    // }
-  }
-
-  /**
-   * @internal
-   */
-  public _notifyAstEntityReferencedBy(astEntityReference: IAstEntityReference): void {
-    this._analyzedAstEntityReferencedBy.add(astEntityReference);
   }
 
   /**

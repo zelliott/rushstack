@@ -21,11 +21,11 @@ export class ExtendsIncludedButForgottenExport extends IncludedButForgottenExpor
 
 // This class should not be included in the API report or API doc model. It should
 // also be marked as a forgotten export due to `someFunction`.
-class UnexportedClass {}
+class Unexported {}
 
 /** @public */
-export function someFunction(): UnexportedClass {
-  return new UnexportedClass();
+export function someFunction(): Unexported {
+  return new Unexported();
 }
 
 // These declarations should be included in the API report and API doc model
@@ -69,3 +69,14 @@ export namespace AnotherNamespace {
   /** @public */
   export class B extends A {}
 }
+
+// This class should be included in the API report and API doc model, and both declarations
+// should be marked as forgotten exports.
+type ForgottenExport = number;
+class UnexportedWithForgottenExports {
+  prop: ForgottenExport;
+  anotherProp: UnexportedWithForgottenExports;
+}
+
+/** @public */
+export class ExtendsUnexportedWithForgottenExports extends UnexportedWithForgottenExports {}

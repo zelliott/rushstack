@@ -6,9 +6,8 @@ import * as ts from 'typescript';
 import { AstSymbol } from '../analyzer/AstSymbol';
 import { Collector } from './Collector';
 import { Sort } from '@rushstack/node-core-library';
-import { AstEntity, AstEntityReferenceKind } from '../analyzer/AstEntity';
+import { AstEntity } from '../analyzer/AstEntity';
 import { AstNamespaceImport } from '../analyzer/AstNamespaceImport';
-import { AstDeclaration } from '../analyzer/AstDeclaration';
 
 /**
  * This is a data structure used by the Collector to track an AstEntity that may be emitted in the *.d.ts file.
@@ -174,15 +173,4 @@ export class CollectorEntity {
     }
     return this._sortKey;
   }
-
-  // TODO: This needs to be done in Collector.ts I think.
-  // private inheritedByConsumable(): boolean {
-  //   if (!(this.astEntity instanceof AstSymbol)) return false;
-
-  //   for (const astDeclaration of this.astEntity.astDeclarations) {
-  //     for (const astEntityReference of astDeclaration.astEntityReferencedBy) {
-  //       if (astEntityReference.kind === AstEntityReferenceKind.Inheritance && astEntityReference.astEntity.
-  //     }
-  //   }
-  // }
 }

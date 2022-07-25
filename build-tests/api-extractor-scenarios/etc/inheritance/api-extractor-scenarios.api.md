@@ -4,7 +4,7 @@
 
 ```ts
 
-// @public (undocumented)
+// (undocumented)
 class A {
 }
 
@@ -40,17 +40,21 @@ export class ExtendsMerged extends Merged {
 }
 
 // @public (undocumented)
+export class ExtendsUnexportedWithForgottenExports extends UnexportedWithForgottenExports {
+}
+
+// (undocumented)
 interface IA {
 }
 
-// @public (undocumented)
+// (undocumented)
 interface IA {
 }
 
-// @public (undocumented)
+// (undocumented)
 type IB = {};
 
-// @public (undocumented)
+// (undocumented)
 class IC {
 }
 
@@ -58,26 +62,26 @@ class IC {
 export interface ID extends IA, IB, IC {
 }
 
-// @public (undocumented)
+// (undocumented)
 class IncludedButForgottenExport {
 }
 
-// @public (undocumented)
+// (undocumented)
 class Merged {
 }
 
-// @public (undocumented)
+// (undocumented)
 namespace Merged {
     // (undocumented)
     function innerFunction(): void;
 }
 
-// Warning: (ae-forgotten-export) The symbol "UnexportedClass" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Unexported" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export function someFunction(): UnexportedClass;
+export function someFunction(): Unexported;
 
-// @public (undocumented)
+// (undocumented)
 namespace SomeNamespace {
     // (undocumented)
     class Extended {
@@ -85,6 +89,18 @@ namespace SomeNamespace {
     // (undocumented)
     class NotExtended {
     }
+}
+
+// (undocumented)
+class UnexportedWithForgottenExports {
+    // Warning: (ae-forgotten-export) The symbol "UnexportedWithForgottenExports" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    anotherProp: UnexportedWithForgottenExports;
+    // Warning: (ae-forgotten-export) The symbol "ForgottenExport" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    prop: ForgottenExport;
 }
 
 // (No @packageDocumentation comment for this package)

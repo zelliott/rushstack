@@ -21,7 +21,7 @@ export class ValidationEnhancer {
     const alreadyWarnedEntities: Set<AstEntity> = new Set<AstEntity>();
 
     for (const entity of collector.entities) {
-      if (!entity.consumable) {
+      if (!(entity.consumable || entity.consumableViaInheritance)) {
         continue;
       }
 

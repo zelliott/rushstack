@@ -46,6 +46,7 @@ import { AstEntity } from '../analyzer/AstEntity';
 import { AstModule } from '../analyzer/AstModule';
 import { TypeScriptInternals } from '../analyzer/TypeScriptInternals';
 import { CollectorEntity } from '../collector/CollectorEntity';
+import { InternalError } from '@rushstack/node-core-library';
 
 export class ApiModelGenerator {
   private readonly _collector: Collector;
@@ -1130,14 +1131,14 @@ export class ApiModelGenerator {
   }
 
   private _isExported(astDeclaration: AstDeclaration): boolean {
-    // TODO not sure if this rootAstSymbol bit is right.
+    // Collector entities are only created for root symbols.
     const entity: CollectorEntity | undefined = this._collector.tryGetCollectorEntity(
       astDeclaration.astSymbol.rootAstSymbol
     );
 
-    // TODO not sure if this can happen.
     if (!entity) {
-      throw new Error();
+      // This should never happen.
+      throw new InternalError('Failed to get collector entity for root symbol of declaration');
     }
 
     return entity.exported;
