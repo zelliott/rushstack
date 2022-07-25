@@ -24,8 +24,6 @@ export class CollectorEntity {
    */
   public readonly astEntity: AstEntity;
 
-  public consumableViaInheritance: boolean = false;
-
   private _exportNames: Set<string> = new Set();
   private _exportNamesSorted: boolean = false;
   private _singleExportName: string | undefined = undefined;
@@ -35,6 +33,8 @@ export class CollectorEntity {
   private _sortKey: string | undefined = undefined;
 
   private _astNamespaceImports: Set<AstNamespaceImport> = new Set();
+
+  private _consumableInheritingAstEntities: Set<AstEntity> = new Set();
 
   public constructor(astEntity: AstEntity) {
     this.astEntity = astEntity;
@@ -142,6 +142,25 @@ export class CollectorEntity {
   }
 
   /**
+   * Indicates that its possible to consume this entity indirectly via inheritance.
+   *
+   * @remarks
+   * Consider the following scenario:
+   *
+   * ```ts
+   * class A {}
+   *
+   * export class B extends A {}
+   * ```
+   *
+   * `B` is exported and consumable, while `A` is neither. However, `A` is indirectly consumable
+   * via inheritance from `B`.
+   */
+  public get consumableViaInheritance(): boolean {
+    return this._consumableInheritingAstEntities.size > 0;
+  }
+
+  /**
    * Associates this entity with a `AstNamespaceImport`.
    */
   public addAstNamespaceImports(astNamespaceImport: AstNamespaceImport): void {
@@ -162,6 +181,13 @@ export class CollectorEntity {
         this._singleExportName = undefined;
       }
     }
+  }
+
+  /**
+   * Adds a new consumable, inheriting `AstEntity` to the set.
+   */
+  public addConsumableInheritingAstEntity(astEntity: AstEntity): void {
+    this._consumableInheritingAstEntities.add(astEntity);
   }
 
   /**

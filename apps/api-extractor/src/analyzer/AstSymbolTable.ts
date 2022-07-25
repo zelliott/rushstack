@@ -316,7 +316,7 @@ export class AstSymbolTable {
 
     if (!astSymbol.isExternal) {
       // If this symbol is non-external (i.e. it belongs to the working package), then we also analyze any
-      // referencedAstSymbols that are non-external.  For example, this ensures that forgotten exports
+      // referenced entities that are non-external.  For example, this ensures that forgotten exports
       // get analyzed.
       rootAstSymbol.forEachDeclarationRecursive((astDeclaration: AstDeclaration) => {
         for (const astEntityReferences of astDeclaration.astEntityReferences) {
@@ -418,8 +418,12 @@ export class AstSymbolTable {
             }
 
             if (referencedAstEntity) {
+              const heritageClause: ts.HeritageClause | undefined = TypeScriptHelpers.findFirstParent(
+                node,
+                ts.SyntaxKind.HeritageClause
+              );
               const isInheritanceReference: boolean =
-                ts.isHeritageClause(node.parent) && node.parent.token === ts.SyntaxKind.ExtendsKeyword;
+                !!heritageClause && heritageClause.token === ts.SyntaxKind.ExtendsKeyword;
               const referenceKind: AstEntityReferenceKind = isInheritanceReference
                 ? AstEntityReferenceKind.Inheritance
                 : AstEntityReferenceKind.Normal;

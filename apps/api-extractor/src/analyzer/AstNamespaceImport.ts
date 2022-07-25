@@ -21,7 +21,7 @@ export interface IAstNamespaceImportOptions {
  *
  * A typical input looks like this:
  * ```ts
- * // Suppose that example.ts exports two functions f1() and f2().
+ * // Suppose that file.ts exports two functions f1() and f2().
  * import * as example from "./file";
  * export { example };
  * ```

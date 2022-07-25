@@ -192,6 +192,7 @@
               "text": "export interface Constraint "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "Constraint",
           "preserveMemberOrder": false,
@@ -212,6 +213,7 @@
               "text": "number"
             }
           ],
+          "isExported": true,
           "isReadonly": true,
           "releaseTag": "Public",
           "name": "constVariable",
@@ -230,6 +232,7 @@
               "text": "export declare class DecoratorExample "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DecoratorExample",
           "preserveMemberOrder": false,
@@ -277,6 +280,7 @@
               "text": "export interface DefaultType "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DefaultType",
           "preserveMemberOrder": false,
@@ -293,6 +297,7 @@
               "text": "export declare class DocBaseClass "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DocBaseClass",
           "preserveMemberOrder": false,
@@ -388,6 +393,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DocClass1",
           "preserveMemberOrder": false,
@@ -1049,6 +1055,7 @@
               "text": "export declare class DocClassInterfaceMerge "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DocClassInterfaceMerge",
           "preserveMemberOrder": false,
@@ -1065,6 +1072,7 @@
               "text": "export interface DocClassInterfaceMerge "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DocClassInterfaceMerge",
           "preserveMemberOrder": false,
@@ -1081,6 +1089,7 @@
               "text": "export declare enum DocEnum "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DocEnum",
           "preserveMemberOrder": false,
@@ -1160,6 +1169,7 @@
               "text": "export declare enum DocEnumNamespaceMerge "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DocEnumNamespaceMerge",
           "preserveMemberOrder": false,
@@ -1218,6 +1228,7 @@
               "text": "export declare namespace DocEnumNamespaceMerge "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "DocEnumNamespaceMerge",
           "preserveMemberOrder": false,
@@ -1240,6 +1251,7 @@
                   "text": ";"
                 }
               ],
+              "isExported": true,
               "returnTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -1261,6 +1273,7 @@
               "text": "export declare namespace EcmaSmbols "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "EcmaSmbols",
           "preserveMemberOrder": false,
@@ -1279,6 +1292,7 @@
                   "text": "unique symbol"
                 }
               ],
+              "isExported": true,
               "isReadonly": true,
               "releaseTag": "Public",
               "name": "example",
@@ -1317,6 +1331,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExampleDuplicateTypeAlias",
           "typeTokenRange": {
@@ -1360,6 +1375,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "returnTypeTokenRange": {
             "startIndex": 5,
             "endIndex": 6
@@ -1409,6 +1425,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExampleTypeAlias",
           "typeTokenRange": {
@@ -1444,6 +1461,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "ExampleUnionTypeAlias",
           "typeTokenRange": {
@@ -1461,6 +1479,7 @@
               "text": "export declare class Generic<T> "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "typeParameters": [
             {
@@ -1498,6 +1517,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "GenericTypeAlias",
           "typeParameters": [
@@ -1528,6 +1548,7 @@
               "text": "export interface IDocInterface1 "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IDocInterface1",
           "preserveMemberOrder": false,
@@ -1582,6 +1603,7 @@
               "text": " "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IDocInterface2",
           "preserveMemberOrder": false,
@@ -1632,6 +1654,7 @@
               "text": "export interface IDocInterface3 "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IDocInterface3",
           "preserveMemberOrder": false,
@@ -1853,6 +1876,7 @@
               "text": "export interface IDocInterface4 "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IDocInterface4",
           "preserveMemberOrder": false,
@@ -1983,6 +2007,7 @@
               "text": "export interface IDocInterface5 "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IDocInterface5",
           "preserveMemberOrder": false,
@@ -2027,6 +2052,7 @@
               "text": "export interface IDocInterface6 "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IDocInterface6",
           "preserveMemberOrder": false,
@@ -2321,6 +2347,7 @@
               "text": "export interface IDocInterface7 "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "IDocInterface7",
           "preserveMemberOrder": false,
@@ -2447,6 +2474,7 @@
               "text": "export declare namespace OuterNamespace "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "OuterNamespace",
           "preserveMemberOrder": false,
@@ -2461,6 +2489,7 @@
                   "text": "namespace InnerNamespace "
                 }
               ],
+              "isExported": true,
               "releaseTag": "Public",
               "name": "InnerNamespace",
               "preserveMemberOrder": false,
@@ -2491,6 +2520,7 @@
                       "text": ";"
                     }
                   ],
+                  "isExported": true,
                   "returnTypeTokenRange": {
                     "startIndex": 3,
                     "endIndex": 4
@@ -2525,6 +2555,7 @@
                   "text": "boolean"
                 }
               ],
+              "isExported": true,
               "isReadonly": false,
               "releaseTag": "Public",
               "name": "nestedVariable",
@@ -2545,6 +2576,7 @@
               "text": "export declare class SystemEvent "
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "SystemEvent",
           "preserveMemberOrder": false,
@@ -2617,6 +2649,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "releaseTag": "Public",
           "name": "TypeAlias",
           "typeTokenRange": {
@@ -2643,6 +2676,7 @@
               "text": ";"
             }
           ],
+          "isExported": true,
           "returnTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 2

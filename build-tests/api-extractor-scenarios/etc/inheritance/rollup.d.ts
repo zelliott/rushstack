@@ -15,6 +15,15 @@ export declare namespace AnotherNamespace {
 export declare class B extends A {
 }
 
+declare class C<T> {
+}
+
+declare type D = boolean;
+
+/** @public */
+export declare class E extends C<D> {
+}
+
 /** @public */
 export declare class ExtendsClassWithinNamespace extends SomeNamespace.Extended {
 }

@@ -27,11 +27,13 @@ export const ClassLikeVariable: {
     };
 };
 
+// Warning: (ae-incompatible-release-tags) The symbol "ExtendsAnonymousClass" is marked as @public, but its signature references "ExtendsAnonymousClass_base" which is marked as (none)
+//
 // @public
 export class ExtendsAnonymousClass extends ExtendsAnonymousClass_base {
 }
 
-// @public (undocumented)
+// (undocumented)
 const ExtendsAnonymousClass_base: {
     new (): {
         someProp: number;
@@ -46,6 +48,8 @@ export class ExtendsClassFromAnotherPackage extends Extractor {
 export class ExtendsClassLikeVariable extends ClassLikeVariable {
 }
 
+// Warning: (ae-incompatible-release-tags) The symbol "ExtendsUnexportedClass" is marked as @public, but its signature references "UnexportedClass" which is marked as (none)
+//
 // @public
 export class ExtendsUnexportedClass extends UnexportedClass {
 }
@@ -87,7 +91,7 @@ export namespace Namespace1 {
     }
 }
 
-// @public (undocumented)
+// (undocumented)
 class UnexportedClass {
     // (undocumented)
     someProp: number;

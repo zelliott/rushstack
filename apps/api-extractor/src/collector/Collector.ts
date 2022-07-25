@@ -254,17 +254,17 @@ export class Collector {
       this.astSymbolTable.fetchAstModuleExportInfo(astEntryPoint);
 
     for (const [exportName, astEntity] of astModuleExportInfo.exportedLocalEntities) {
-      this._createCollectorEntity(astEntity, exportName);
+      this._createCollectorEntity(astEntity, exportName, undefined);
 
       exportedAstEntities.push(astEntity);
     }
 
     // Create a CollectorEntity for each indirectly referenced export.
-    // Note that we do this *after* the above loop, so that references to exported AstSymbols
+    // Note that we do this *after* the above loop, so that references to exported entities
     // are encountered first as exports.
-    const alreadySeenAstEntities: Set<AstSymbol> = new Set<AstSymbol>();
+    const alreadySeenAstEntities: Set<AstEntity> = new Set<AstEntity>();
     for (const exportedAstEntity of exportedAstEntities) {
-      this._createEntityForIndirectReferences(exportedAstEntity, alreadySeenAstEntities);
+      this._createEntitiesForIndirectReferences(exportedAstEntity, alreadySeenAstEntities);
 
       if (exportedAstEntity instanceof AstSymbol) {
         this.fetchSymbolMetadata(exportedAstEntity);
@@ -417,7 +417,7 @@ export class Collector {
   private _createCollectorEntity(
     astEntity: AstEntity,
     exportedName: string | undefined,
-    consumableViaInheritance: boolean = false
+    consumableInheritingAstEntity: AstEntity | undefined
   ): CollectorEntity {
     let entity: CollectorEntity | undefined = this._entitiesByAstEntity.get(astEntity);
 
@@ -433,14 +433,14 @@ export class Collector {
       entity.addExportName(exportedName);
     }
 
-    if (consumableViaInheritance) {
-      entity.consumableViaInheritance = true;
+    if (consumableInheritingAstEntity) {
+      entity.addConsumableInheritingAstEntity(consumableInheritingAstEntity);
     }
 
     return entity;
   }
 
-  private _createEntityForIndirectReferences(
+  private _createEntitiesForIndirectReferences(
     astEntity: AstEntity,
     alreadySeenAstEntities: Set<AstEntity>
   ): void {
@@ -450,32 +450,37 @@ export class Collector {
     alreadySeenAstEntities.add(astEntity);
 
     if (astEntity instanceof AstSymbol) {
+      const entity: CollectorEntity | undefined = this._entitiesByAstEntity.get(astEntity.rootAstSymbol);
+      if (!entity) {
+        // This should never happen.
+        throw new InternalError(
+          `Failed to get CollectorEntity for AstSymbol with the name "${astEntity.rootAstSymbol.localName}"`
+        );
+      }
+
       astEntity.forEachDeclarationRecursive((astDeclaration: AstDeclaration) => {
         for (const astEntityReference of astDeclaration.astEntityReferences) {
           const referencedAstEntity: AstEntity = astEntityReference.astEntity;
           const referenceKind: AstEntityReferenceKind = astEntityReference.kind;
 
-          // TODO: Do AstNamespaceImports need this logic? Do AstImports even need this logic?
-          const entity: CollectorEntity | undefined = this._entitiesByAstEntity.get(astEntity);
-          if (!entity) {
-            // This should never happen.
-            throw new Error();
+          // Is there a consumable entity that inherits from the referenced entity?
+          let consumableInheritingAstEntity: AstEntity | undefined;
+          if (entity.consumable && referenceKind === AstEntityReferenceKind.Inheritance) {
+            consumableInheritingAstEntity = astEntity;
           }
-          const consumableViaInheritance: boolean =
-            entity.consumable && referenceKind === AstEntityReferenceKind.Inheritance;
 
           if (referencedAstEntity instanceof AstSymbol) {
             // We only create collector entities for root-level symbols.
             // For example, if a symbols is nested inside a namespace, only the root-level namespace
             // get a collector entity
             if (referencedAstEntity.parentAstSymbol === undefined) {
-              this._createCollectorEntity(referencedAstEntity, undefined, consumableViaInheritance);
+              this._createCollectorEntity(referencedAstEntity, undefined, consumableInheritingAstEntity);
             }
           } else {
-            this._createCollectorEntity(referencedAstEntity, undefined, consumableViaInheritance);
+            this._createCollectorEntity(referencedAstEntity, undefined, consumableInheritingAstEntity);
           }
 
-          this._createEntityForIndirectReferences(referencedAstEntity, alreadySeenAstEntities);
+          this._createEntitiesForIndirectReferences(referencedAstEntity, alreadySeenAstEntities);
         }
       });
     }
@@ -485,10 +490,10 @@ export class Collector {
 
       for (const exportedEntity of astModuleExportInfo.exportedLocalEntities.values()) {
         // Create a CollectorEntity for each top-level export of AstImportInternal entity
-        const entity: CollectorEntity = this._createCollectorEntity(exportedEntity, undefined);
+        const entity: CollectorEntity = this._createCollectorEntity(exportedEntity, undefined, undefined);
         entity.addAstNamespaceImports(astEntity);
 
-        this._createEntityForIndirectReferences(exportedEntity, alreadySeenAstEntities);
+        this._createEntitiesForIndirectReferences(exportedEntity, alreadySeenAstEntities);
       }
     }
   }

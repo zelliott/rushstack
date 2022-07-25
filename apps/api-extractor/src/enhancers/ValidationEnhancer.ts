@@ -228,7 +228,7 @@ export class ValidationEnhancer {
         continue;
       }
 
-      if (collectorEntity && collectorEntity.consumable) {
+      if (collectorEntity && (collectorEntity.consumable || collectorEntity.consumableViaInheritance)) {
         if (ReleaseTag.compare(declarationReleaseTag, referencedReleaseTag) > 0) {
           collector.messageRouter.addAnalyzerIssue(
             ExtractorMessageId.IncompatibleReleaseTags,
@@ -240,6 +240,7 @@ export class ValidationEnhancer {
           );
         }
       } else {
+        // Referenced inherited entities are never forgotten exports.
         if (astEntityReference.kind === AstEntityReferenceKind.Inheritance) {
           continue;
         }

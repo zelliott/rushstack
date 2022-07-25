@@ -496,7 +496,7 @@
           ],
           "isExported": false,
           "isReadonly": true,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "ExtendsAnonymousClass_base",
           "variableTypeTokenRange": {
             "startIndex": 1,
@@ -1125,7 +1125,7 @@
             }
           ],
           "isExported": false,
-          "releaseTag": "Public",
+          "releaseTag": "None",
           "name": "UnexportedClass",
           "preserveMemberOrder": false,
           "members": [
@@ -1149,7 +1149,7 @@
               ],
               "isReadonly": false,
               "isOptional": false,
-              "releaseTag": "Public",
+              "releaseTag": "None",
               "name": "someProp",
               "propertyTypeTokenRange": {
                 "startIndex": 1,

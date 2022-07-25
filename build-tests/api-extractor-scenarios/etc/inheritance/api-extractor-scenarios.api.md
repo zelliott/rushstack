@@ -19,26 +19,50 @@ export namespace AnotherNamespace {
         {};
 }
 
+// Warning: (ae-incompatible-release-tags) The symbol "B" is marked as @public, but its signature references "A" which is marked as (none)
+//
 // @public (undocumented)
 export class B extends A {
 }
 
+// (undocumented)
+class C<T> {
+}
+
+// (undocumented)
+type D = boolean;
+
+// Warning: (ae-incompatible-release-tags) The symbol "E" is marked as @public, but its signature references "C" which is marked as (none)
+// Warning: (ae-incompatible-release-tags) The symbol "E" is marked as @public, but its signature references "D" which is marked as (none)
+//
+// @public (undocumented)
+export class E extends C<D> {
+}
+
+// Warning: (ae-incompatible-release-tags) The symbol "ExtendsClassWithinNamespace" is marked as @public, but its signature references "SomeNamespace" which is marked as (none)
+//
 // @public (undocumented)
 export class ExtendsClassWithinNamespace extends SomeNamespace.Extended {
 }
 
+// Warning: (ae-incompatible-release-tags) The symbol "ExtendsIncludedButForgottenExport" is marked as @public, but its signature references "IncludedButForgottenExport" which is marked as (none)
+//
 // @public (undocumented)
 export class ExtendsIncludedButForgottenExport extends IncludedButForgottenExport {
-    // Warning: (ae-forgotten-export) The symbol "IncludedButForgottenExport" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-incompatible-release-tags) The symbol "prop" is marked as @public, but its signature references "IncludedButForgottenExport" which is marked as (none)
     //
     // (undocumented)
     prop: IncludedButForgottenExport;
 }
 
+// Warning: (ae-incompatible-release-tags) The symbol "ExtendsMerged" is marked as @public, but its signature references "Merged" which is marked as (none)
+//
 // @public (undocumented)
 export class ExtendsMerged extends Merged {
 }
 
+// Warning: (ae-incompatible-release-tags) The symbol "ExtendsUnexportedWithForgottenExports" is marked as @public, but its signature references "UnexportedWithForgottenExports" which is marked as (none)
+//
 // @public (undocumented)
 export class ExtendsUnexportedWithForgottenExports extends UnexportedWithForgottenExports {
 }
@@ -58,6 +82,10 @@ type IB = {};
 class IC {
 }
 
+// Warning: (ae-incompatible-release-tags) The symbol "ID" is marked as @public, but its signature references "IA" which is marked as (none)
+// Warning: (ae-incompatible-release-tags) The symbol "ID" is marked as @public, but its signature references "IB" which is marked as (none)
+// Warning: (ae-incompatible-release-tags) The symbol "ID" is marked as @public, but its signature references "IC" which is marked as (none)
+//
 // @public (undocumented)
 export interface ID extends IA, IB, IC {
 }
@@ -93,8 +121,6 @@ namespace SomeNamespace {
 
 // (undocumented)
 class UnexportedWithForgottenExports {
-    // Warning: (ae-forgotten-export) The symbol "UnexportedWithForgottenExports" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     anotherProp: UnexportedWithForgottenExports;
     // Warning: (ae-forgotten-export) The symbol "ForgottenExport" needs to be exported by the entry point index.d.ts

@@ -4,6 +4,8 @@
 
 ```ts
 
+// Warning: (ae-incompatible-release-tags) The symbol "Lib1Class" is marked as @public, but its signature references "Lib1ForgottenExport" which is marked as (none)
+//
 // @public (undocumented)
 export class Lib1Class extends Lib1ForgottenExport {
     // (undocumented)

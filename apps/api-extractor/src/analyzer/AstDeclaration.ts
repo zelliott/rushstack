@@ -68,7 +68,7 @@ export class AstDeclaration {
   private readonly _analyzedAstEntityReferences: Set<IAstEntityReference> = new Set<IAstEntityReference>();
 
   /**
-   * This data structure allows us to ensure we don't store the same exact kind of entity reference twice.
+   * This "nested set" data structure is used to avoid storing the same `AstEntityReference` twice.
    */
   private readonly _analyzedAstEntityReferenceKindsByAstEntity: Map<AstEntity, Set<AstEntityReferenceKind>> =
     new Map<AstEntity, Set<AstEntityReferenceKind>>();
@@ -112,7 +112,7 @@ export class AstDeclaration {
   }
 
   /**
-   * Returns the `AstEntityReference` objects associated with this `AstDeclaration`.
+   * Returns the `AstEntityReference` objects referenced by this `AstDeclaration`.
    * @remarks
    * The collection will be empty until AstSymbol.analyzed is true.
    */
