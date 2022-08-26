@@ -179,7 +179,7 @@
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export declare class Item "
+              "text": "export default class Item "
             }
           ],
           "releaseTag": "Public",
@@ -197,8 +197,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "OptionsRenamed",
-                  "canonicalReference": "api-extractor-scenarios!OptionsRenamed:interface"
+                  "text": "Options",
+                  "canonicalReference": "api-extractor-scenarios!renamed_Options:interface"
                 },
                 {
                   "kind": "Content",
@@ -221,21 +221,21 @@
         },
         {
           "kind": "Interface",
-          "canonicalReference": "api-extractor-scenarios!OptionsRenamed:interface",
+          "canonicalReference": "api-extractor-scenarios!renamed_Options:interface",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "interface OptionsRenamed "
+              "text": "export default interface Options "
             }
           ],
           "releaseTag": "Public",
-          "name": "OptionsRenamed",
+          "name": "renamed_Options",
           "preserveMemberOrder": false,
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "api-extractor-scenarios!OptionsRenamed#color:member",
+              "canonicalReference": "api-extractor-scenarios!renamed_Options#color:member",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -262,7 +262,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "api-extractor-scenarios!OptionsRenamed#name:member",
+              "canonicalReference": "api-extractor-scenarios!renamed_Options#name:member",
               "docComment": "",
               "excerptTokens": [
                 {

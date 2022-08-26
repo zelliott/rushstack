@@ -1,10 +1,10 @@
 /** @public */
 export declare class Item {
-    options: OptionsRenamed;
+    options: renamed_Options;
 }
 
 /** @public */
-export declare interface OptionsRenamed {
+export declare interface renamed_Options {
     name: string;
     color: 'red' | 'blue';
 }

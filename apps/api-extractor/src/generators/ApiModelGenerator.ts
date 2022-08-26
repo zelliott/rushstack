@@ -59,6 +59,7 @@ export class ApiModelGenerator {
       collector.workingPackage.name,
       collector.program,
       collector.typeChecker,
+      collector.getEmitName.bind(collector),
       collector.bundledPackageNames
     );
   }

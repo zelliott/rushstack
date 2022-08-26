@@ -7,11 +7,11 @@
 // @public (undocumented)
 export class Item {
     // (undocumented)
-    options: OptionsRenamed;
+    options: renamed_Options;
 }
 
 // @public (undocumented)
-export interface OptionsRenamed {
+export interface renamed_Options {
     // (undocumented)
     color: 'red' | 'blue';
     // (undocumented)

@@ -21,6 +21,7 @@ export class DeclarationReferenceGenerator {
   private _workingPackageName: string;
   private _program: ts.Program;
   private _typeChecker: ts.TypeChecker;
+  private _getEmitName: (symbol: ts.Symbol) => string;
   private _bundledPackageNames: ReadonlySet<string>;
 
   public constructor(
@@ -28,12 +29,14 @@ export class DeclarationReferenceGenerator {
     workingPackageName: string,
     program: ts.Program,
     typeChecker: ts.TypeChecker,
+    getEmitName: (symbol: ts.Symbol) => string,
     bundledPackageNames: ReadonlySet<string>
   ) {
     this._packageJsonLookup = packageJsonLookup;
     this._workingPackageName = workingPackageName;
     this._program = program;
     this._typeChecker = typeChecker;
+    this._getEmitName = getEmitName;
     this._bundledPackageNames = bundledPackageNames;
   }
 
@@ -245,7 +248,7 @@ export class DeclarationReferenceGenerator {
       return undefined;
     }
 
-    let localName: string = followedSymbol.name;
+    let localName: string = this._getEmitName(followedSymbol);
     if (followedSymbol.escapedName === ts.InternalSymbolName.Constructor) {
       localName = 'constructor';
     } else {
