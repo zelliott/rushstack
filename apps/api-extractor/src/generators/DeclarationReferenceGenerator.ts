@@ -22,6 +22,7 @@ export class DeclarationReferenceGenerator {
   private _program: ts.Program;
   private _typeChecker: ts.TypeChecker;
   private _getEmitName: (symbol: ts.Symbol) => string;
+  private _getParentSymbols: (symbol: ts.Symbol) => ts.Symbol[];
   private _bundledPackageNames: ReadonlySet<string>;
 
   public constructor(
@@ -30,6 +31,7 @@ export class DeclarationReferenceGenerator {
     program: ts.Program,
     typeChecker: ts.TypeChecker,
     getEmitName: (symbol: ts.Symbol) => string,
+    getParentSymbols: (symbol: ts.Symbol) => ts.Symbol[],
     bundledPackageNames: ReadonlySet<string>
   ) {
     this._packageJsonLookup = packageJsonLookup;
@@ -37,6 +39,7 @@ export class DeclarationReferenceGenerator {
     this._program = program;
     this._typeChecker = typeChecker;
     this._getEmitName = getEmitName;
+    this._getParentSymbols = getParentSymbols;
     this._bundledPackageNames = bundledPackageNames;
   }
 
@@ -293,10 +296,15 @@ export class DeclarationReferenceGenerator {
     // First, try to find a parent symbol via the symbol tree.
     const parentSymbol: ts.Symbol | undefined = TypeScriptInternals.getSymbolParent(symbol);
     if (parentSymbol) {
-      return this._symbolToDeclarationReference(
+      const parentRef: DeclarationReference | undefined = this._symbolToDeclarationReference(
         parentSymbol,
         parentSymbol.flags,
         /*includeModuleSymbols*/ true
+      );
+      return this._getParentSymbols(symbol).reduce(
+        (parentRef, currentSymbol) =>
+          parentRef && parentRef.addNavigationStep(Navigation.Exports, currentSymbol.getName()),
+        parentRef
       );
     }
 

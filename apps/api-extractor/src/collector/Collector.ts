@@ -315,8 +315,33 @@ export class Collector {
    * @returns the name to emit for the given `symbol`
    */
   public getEmitName(symbol: ts.Symbol): string {
-    const collectorEntity = this._entitiesBySymbol.get(symbol);
+    const collectorEntity: CollectorEntity | undefined = this._entitiesBySymbol.get(symbol);
     return collectorEntity?.nameForEmit ?? symbol.name;
+  }
+
+  public getParentSymbols(symbol: ts.Symbol): ts.Symbol[] {
+    const result: ts.Symbol[] = [];
+    let currentSymbol: ts.Symbol | undefined = symbol;
+    while (currentSymbol) {
+      currentSymbol = this._getParentSymbol(currentSymbol);
+      if (currentSymbol) {
+        result.unshift(currentSymbol);
+      }
+    }
+    return result;
+  }
+
+  private _getParentSymbol(symbol: ts.Symbol): ts.Symbol | undefined {
+    const collectorEntity: CollectorEntity | undefined = this._entitiesBySymbol.get(symbol);
+    if (collectorEntity) {
+      const firstNamespaceImport: AstNamespaceImport | undefined = [
+        ...collectorEntity.astNamespaceImports
+      ][0];
+      if (firstNamespaceImport) {
+        return (firstNamespaceImport.declaration as unknown as ts.Type).symbol;
+      }
+    }
+    return undefined;
   }
 
   public fetchSymbolMetadata(astSymbol: AstSymbol): SymbolMetadata {
@@ -436,6 +461,8 @@ export class Collector {
       this._entitiesByAstEntity.set(astEntity, entity);
       if (astEntity instanceof AstSymbol) {
         this._entitiesBySymbol.set(astEntity.followedSymbol, entity);
+      } else if (astEntity instanceof AstNamespaceImport) {
+        this._entitiesBySymbol.set((astEntity.declaration as unknown as ts.Type).symbol, entity);
       }
       this._entities.push(entity);
       this._collectReferenceDirectives(astEntity);

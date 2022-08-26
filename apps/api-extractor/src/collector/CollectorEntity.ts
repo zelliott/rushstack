@@ -146,6 +146,10 @@ export class CollectorEntity {
     this._astNamespaceImports.add(astNamespaceImport);
   }
 
+  public get astNamespaceImports(): Set<AstNamespaceImport> {
+    return this._astNamespaceImports;
+  }
+
   /**
    * Adds a new exportName to the exportNames set.
    */
