@@ -54,15 +54,7 @@ export class ApiModelGenerator {
   public constructor(collector: Collector) {
     this._collector = collector;
     this._apiModel = new ApiModel();
-    this._referenceGenerator = new DeclarationReferenceGenerator(
-      collector.packageJsonLookup,
-      collector.workingPackage.name,
-      collector.program,
-      collector.typeChecker,
-      collector.getEmitName.bind(collector),
-      collector.getParentSymbols.bind(collector),
-      collector.bundledPackageNames
-    );
+    this._referenceGenerator = new DeclarationReferenceGenerator(collector);
   }
 
   public get apiModel(): ApiModel {

@@ -10,44 +10,25 @@ import {
   Navigation,
   Meaning
 } from '@microsoft/tsdoc/lib-commonjs/beta/DeclarationReference';
-import { PackageJsonLookup, INodePackageJson, InternalError } from '@rushstack/node-core-library';
+import { INodePackageJson, InternalError } from '@rushstack/node-core-library';
 import { TypeScriptHelpers } from '../analyzer/TypeScriptHelpers';
 import { TypeScriptInternals } from '../analyzer/TypeScriptInternals';
+import { Collector } from '../collector/Collector';
 
 export class DeclarationReferenceGenerator {
   public static readonly unknownReference: string = '?';
 
-  private _packageJsonLookup: PackageJsonLookup;
-  private _workingPackageName: string;
-  private _program: ts.Program;
-  private _typeChecker: ts.TypeChecker;
-  private _getEmitName: (symbol: ts.Symbol) => string;
-  private _getParentSymbols: (symbol: ts.Symbol) => ts.Symbol[];
-  private _bundledPackageNames: ReadonlySet<string>;
+  private _collector: Collector;
 
-  public constructor(
-    packageJsonLookup: PackageJsonLookup,
-    workingPackageName: string,
-    program: ts.Program,
-    typeChecker: ts.TypeChecker,
-    getEmitName: (symbol: ts.Symbol) => string,
-    getParentSymbols: (symbol: ts.Symbol) => ts.Symbol[],
-    bundledPackageNames: ReadonlySet<string>
-  ) {
-    this._packageJsonLookup = packageJsonLookup;
-    this._workingPackageName = workingPackageName;
-    this._program = program;
-    this._typeChecker = typeChecker;
-    this._getEmitName = getEmitName;
-    this._getParentSymbols = getParentSymbols;
-    this._bundledPackageNames = bundledPackageNames;
+  public constructor(collector: Collector) {
+    this._collector = collector;
   }
 
   /**
    * Gets the UID for a TypeScript Identifier that references a type.
    */
   public getDeclarationReferenceForIdentifier(node: ts.Identifier): DeclarationReference | undefined {
-    const symbol: ts.Symbol | undefined = this._typeChecker.getSymbolAtLocation(node);
+    const symbol: ts.Symbol | undefined = this._collector.typeChecker.getSymbolAtLocation(node);
     if (symbol !== undefined) {
       const isExpression: boolean = DeclarationReferenceGenerator._isInExpressionContext(node);
       return (
@@ -226,10 +207,10 @@ export class DeclarationReferenceGenerator {
   ): DeclarationReference | undefined {
     let followedSymbol: ts.Symbol = symbol;
     if (followedSymbol.flags & ts.SymbolFlags.ExportValue) {
-      followedSymbol = this._typeChecker.getExportSymbolOfSymbol(followedSymbol);
+      followedSymbol = this._collector.typeChecker.getExportSymbolOfSymbol(followedSymbol);
     }
     if (followedSymbol.flags & ts.SymbolFlags.Alias) {
-      followedSymbol = this._typeChecker.getAliasedSymbol(followedSymbol);
+      followedSymbol = this._collector.typeChecker.getAliasedSymbol(followedSymbol);
     }
 
     if (DeclarationReferenceGenerator._isExternalModuleSymbol(followedSymbol)) {
@@ -251,7 +232,7 @@ export class DeclarationReferenceGenerator {
       return undefined;
     }
 
-    let localName: string = this._getEmitName(followedSymbol);
+    let localName: string = this._collector.getEmitName(followedSymbol);
     if (followedSymbol.escapedName === ts.InternalSymbolName.Constructor) {
       localName = 'constructor';
     } else {
@@ -301,11 +282,13 @@ export class DeclarationReferenceGenerator {
         parentSymbol.flags,
         /*includeModuleSymbols*/ true
       );
-      return this._getParentSymbols(symbol).reduce(
-        (parentRef, currentSymbol) =>
-          parentRef && parentRef.addNavigationStep(Navigation.Exports, currentSymbol.getName()),
-        parentRef
-      );
+      return this._collector
+        .getParentSymbols(symbol)
+        .reduce(
+          (parentRef, currentSymbol) =>
+            parentRef && parentRef.addNavigationStep(Navigation.Exports, currentSymbol.getName()),
+          parentRef
+        );
     }
 
     // If that doesn't work, try to find a parent symbol via the node tree. As far as we can tell,
@@ -324,7 +307,7 @@ export class DeclarationReferenceGenerator {
     if (grandParent && ts.isModuleDeclaration(grandParent)) {
       const grandParentSymbol: ts.Symbol | undefined = TypeScriptInternals.tryGetSymbolForDeclaration(
         grandParent,
-        this._typeChecker
+        this._collector.typeChecker
       );
       if (grandParentSymbol) {
         return this._symbolToDeclarationReference(
@@ -345,28 +328,27 @@ export class DeclarationReferenceGenerator {
   }
 
   private _getPackageName(sourceFile: ts.SourceFile): string {
-    if (this._program.isSourceFileFromExternalLibrary(sourceFile)) {
-      const packageJson: INodePackageJson | undefined = this._packageJsonLookup.tryLoadNodePackageJsonFor(
-        sourceFile.fileName
-      );
+    if (this._collector.program.isSourceFileFromExternalLibrary(sourceFile)) {
+      const packageJson: INodePackageJson | undefined =
+        this._collector.packageJsonLookup.tryLoadNodePackageJsonFor(sourceFile.fileName);
 
       if (packageJson && packageJson.name) {
         return packageJson.name;
       }
       return DeclarationReferenceGenerator.unknownReference;
     }
-    return this._workingPackageName;
+    return this._collector.workingPackage.name;
   }
 
   private _sourceFileToModuleSource(sourceFile: ts.SourceFile | undefined): GlobalSource | ModuleSource {
     if (sourceFile && ts.isExternalModule(sourceFile)) {
       const packageName: string = this._getPackageName(sourceFile);
 
-      if (this._bundledPackageNames.has(packageName)) {
+      if (this._collector.bundledPackageNames.has(packageName)) {
         // The api-extractor.json config file has a "bundledPackages" setting, which causes imports from
         // certain NPM packages to be treated as part of the working project.  In this case, we need to
         // substitute the working package name.
-        return new ModuleSource(this._workingPackageName);
+        return new ModuleSource(this._collector.workingPackage.name);
       } else {
         return new ModuleSource(packageName);
       }
