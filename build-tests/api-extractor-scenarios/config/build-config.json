@@ -35,6 +35,7 @@
     "functionOverload",
     "importEquals",
     "importType",
+    "includeForgottenExports",
     "inconsistentReleaseTags",
     "internationalCharacters",
     "mergedDeclarations",
