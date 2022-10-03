@@ -17,6 +17,7 @@ import { ApiInterface } from '../model/ApiInterface';
 import { ExcerptToken, ExcerptTokenKind } from './Excerpt';
 import { IFindApiItemsResult, IFindApiItemsMessage, FindApiItemsMessageId } from './IFindApiItemsResult';
 import { InternalError, LegacyAdapters } from '@rushstack/node-core-library';
+import { DeclarationReference } from '@microsoft/tsdoc/lib-commonjs/beta/DeclarationReference';
 import { HeritageType } from '../model/HeritageType';
 import { IResolveDeclarationReferenceResult } from '../model/ModelReferenceResolver';
 
@@ -104,6 +105,59 @@ export interface ApiItemContainerMixin extends ApiItem {
 
   /**
    * Finds all of the ApiItem's immediate and inherited members by walking up the inheritance tree.
+   *
+   * @remarks
+   *
+   * Given the following class heritage:
+   *
+   * ```
+   * export class A {
+   *   public a: number|boolean;
+   * }
+   *
+   * export class B extends A {
+   *   public a: number;
+   *   public b: string;
+   * }
+   *
+   * export class C extends B {
+   *   public c: boolean;
+   * }
+   * ```
+   *
+   * Calling `findMembersWithInheritance` on `C` will return `B.a`, `B.b`, and `C.c`. Calling the
+   * method on `B` will return `B.a` and `B.b`. And calling the method on `A` will return just
+   * `A.a`.
+   *
+   * The inherited members returned by this method may be incomplete. If so, there will be a flag
+   * on the result object indicating this as well as messages explaining the errors in more detail.
+   * Some scenarios include:
+   *
+   * - Interface extending from a type alias.
+   *
+   * - Class extending from a variable.
+   *
+   * - Extending from a declaration not present in the model (e.g. external package).
+   *
+   * - Extending from an unexported declaration (e.g. ae-forgotten-export). Common in mixin
+   *   patterns.
+   *
+   * - Unexpected runtime errors...
+   *
+   * Lastly, be aware that the types of inherited members are returned with respect to their
+   * defining class as opposed to with respect to the inheriting class. For example, consider
+   * the following:
+   *
+   * ```
+   * export class A<T> {
+   *   public a: T;
+   * }
+   *
+   * export class B extends A<number> {}
+   * ```
+   *
+   * When called on `B`, this method will return `B.a` with type `T` as opposed to type
+   * `number`, although the latter is more accurate.
    */
   findMembersWithInheritance(): IFindApiItemsResult;
 
@@ -221,61 +275,24 @@ export function ApiItemContainerMixin<TBaseClass extends IApiItemConstructor>(
       return this[_membersByName]!.get(name) || [];
     }
 
-    /**
-     * Finds all of the ApiItem's immediate and inherited members by walking up the inheritance tree.
-     *
-     * @remarks
-     *
-     * Given the following class heritage:
-     *
-     * ```
-     * export class A {
-     *   public a: number|boolean;
-     * }
-     *
-     * export class B extends A {
-     *   public a: number;
-     *   public b: string;
-     * }
-     *
-     * export class C extends B {
-     *   public c: boolean;
-     * }
-     * ```
-     *
-     * Calling `findMembersWithInheritance` on `C` will return `B.a`, `B.b`, and `C.c`. Calling the
-     * method on `B` will return `B.a` and `B.b`. And calling the method on `A` will return just
-     * `A.a`.
-     *
-     * The inherited members returned by this method may be incomplete. If so, there will be a flag
-     * on the result object indicating this as well as messages explaining the errors in more detail.
-     * Some scenarios include:
-     *
-     * - Interface extending from a type alias.
-     * - Class extending from a variable.
-     * - Extending from a declaration not present in the model (e.g. external package).
-     * - Extending from an unexported declaration (e.g. ae-forgotten-export). Common in mixin
-     *   patterns.
-     * - Unexpected runtime errors...
-     *
-     * Lastly, be aware that the types of inherited members are returned with respect to their
-     * defining class as opposed to with respect to the inheriting class. For example, consider
-     * the following:
-     *
-     * ```
-     * export class A<T> {
-     *   public a: T;
-     * }
-     *
-     * export class B extends A<number> {}
-     * ```
-     *
-     * When called on `B`, this method will return `B.a` with type `T` as opposed to type
-     * `number`, although the latter is more accurate.
-     */
     public findMembersWithInheritance(): IFindApiItemsResult {
       const messages: IFindApiItemsMessage[] = [];
       let maybeIncompleteResult: boolean = false;
+
+      // For API items that don't support inheritance, this method just returns the item's
+      // immediate members.
+      switch (this.kind) {
+        case ApiItemKind.Class:
+        case ApiItemKind.Interface:
+          break;
+        default: {
+          return {
+            items: this.members.concat(),
+            messages,
+            maybeIncompleteResult
+          };
+        }
+      }
 
       const membersByName: Map<string, ApiItem[]> = new Map();
       const membersByKind: Map<ApiItemKind, ApiItem[]> = new Map();
@@ -335,10 +352,11 @@ export function ApiItemContainerMixin<TBaseClass extends IApiItemConstructor>(
         if (extendsTypes === undefined) {
           messages.push({
             messageId: FindApiItemsMessageId.UnsupportedKind,
-            text: `Item ${next.displayName} is of unsupported kind ${next.kind}.`
+            text: `Unable to analyze references of API item ${next.displayName} because it is of unsupported kind ${next.kind}`
           });
           maybeIncompleteResult = true;
-          break;
+          next = toVisit.shift();
+          continue;
         }
 
         for (const extendsType of extendsTypes) {
@@ -361,8 +379,8 @@ export function ApiItemContainerMixin<TBaseClass extends IApiItemConstructor>(
 
           if (!firstReferenceToken) {
             messages.push({
-              messageId: FindApiItemsMessageId.UnexpectedExcerptTokens,
-              text: `Encountered unexpected excerpt tokens in ${next.displayName}. Excerpt: ${extendsType.excerpt.text}.`
+              messageId: FindApiItemsMessageId.ExtendsClauseMissingReference,
+              text: `Unable to analyze extends clause ${extendsType.excerpt.text} of API item ${next.displayName} because no canonical reference was found`
             });
             maybeIncompleteResult = true;
             continue;
@@ -371,15 +389,16 @@ export function ApiItemContainerMixin<TBaseClass extends IApiItemConstructor>(
           const apiModel: ApiModel | undefined = this.getAssociatedModel();
           if (!apiModel) {
             messages.push({
-              messageId: FindApiItemsMessageId.MissingApiModel,
-              text: `Unable to get the associated model of ${next.displayName}.`
+              messageId: FindApiItemsMessageId.NoAssociatedApiModel,
+              text: `Unable to analyze references of API item ${next.displayName} because it is not associated with an ApiModel`
             });
             maybeIncompleteResult = true;
             continue;
           }
 
+          const canonicalReference: DeclarationReference = firstReferenceToken.canonicalReference!;
           const apiItemResult: IResolveDeclarationReferenceResult = apiModel.resolveDeclarationReference(
-            firstReferenceToken.canonicalReference!,
+            canonicalReference,
             undefined
           );
 
@@ -387,7 +406,7 @@ export function ApiItemContainerMixin<TBaseClass extends IApiItemConstructor>(
           if (!apiItem) {
             messages.push({
               messageId: FindApiItemsMessageId.DeclarationResolutionFailed,
-              text: `Declaration resolution failed for ${next.displayName}. Error message: ${apiItemResult.errorMessage}.`
+              text: `Unable to resolve declaration reference within API item ${next.displayName}: ${apiItemResult.errorMessage}`
             });
             maybeIncompleteResult = true;
             continue;
